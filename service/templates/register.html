@@ -1,0 +1,71 @@
+{% load static %}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/form.css' %}">
+        <title>
+            {% block title %} Register {% endblock %}
+        </title>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+        <script>
+            liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                }else{
+                    liff.getProfile().then(profile => {
+                        console.log(`User ID: ${profile.userId}`);
+                        document.getElementById("userId").value = profile.userId;
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                }
+            }, err => console.error(err.code, error.message));
+        </script>
+        {% if not form.is_valid %}
+            <form method='post'>
+                {% csrf_token %}
+                <div class="form">
+                    <div class="title">Register</div>
+                    <div class="subtitle">Let's create your account!</div>
+
+                    <div class="input-container ic1">
+                        <input id="fname" name="fname" class="input" type="text" placeholder=" " />
+                        <div class="cut"></div>
+                        <label for="fname" class="placeholder">First name</label>
+                    </div>
+
+                    <div class="input-container ic2">
+                        <input id="lname" name="lname" class="input" type="text" placeholder=" " />
+                        <div class="cut"></div>
+                        <label for="lname" class="placeholder">Last name</label>
+                    </div>
+
+                    <div class="input-container ic2">
+                        <input id="sid" name="sid" class="input" type="text" placeholder=" " />
+                        <div class="cut cut-short"></div>
+                        <label for="sid" class="placeholder">Student ID</>
+                    </div>
+
+                    <div class="input-container ic2">
+                        <input id="email" name="email" class="input" type="text" placeholder=" " />
+                        <div class="cut cut-short"></div>
+                        <label for="email" class="placeholder">Email</>
+                    </div>
+
+                    <div class="input-container ic2">
+                        <input id="tel" name="tel" class="input" type="text" placeholder=" " />
+                        <div class="cut cut-short"></div>
+                        <label for="tel" class="placeholder">Telephone</>
+                    </div>
+                    <input type="hidden" id="userId" name="userId" value="">
+                    <input type="submit" class="submit" value="submit">
+                </div>
+            </form>
+        {% endif %}
+        
+
+    </body>
+</html>

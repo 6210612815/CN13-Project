@@ -1,0 +1,40 @@
+{% load static %}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Welcome to Service Site</title>
+    </head>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+        <script>
+            liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                } else {
+                    const accessToken = liff.getAccessToken();
+                    
+                    let data = {                    
+                        'access_token': accessToken,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "https://9193-2403-6200-8890-640e-c5c7-5b96-69c-1fd6.ngrok-free.app/lineapi/",
+                        data: data,
+                        dataType: 'JSON',
+                        success: function (data) {
+                            if (data.in_db) {
+                                window.location.href = "https://9193-2403-6200-8890-640e-c5c7-5b96-69c-1fd6.ngrok-free.app/homepage";
+                            }else{
+                                window.location.href = "https://9193-2403-6200-8890-640e-c5c7-5b96-69c-1fd6.ngrok-free.app/register";
+                            }
+                        }
+                    });
+                }
+            }, err => console.error(err.code, error.message));
+        </script>
+    </body>
+</html>

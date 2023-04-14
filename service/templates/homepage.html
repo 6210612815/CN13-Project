@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Service Site</title>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+    <script>
+        liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
+            if (!liff.isLoggedIn()) {
+                liff.login();
+            }else{
+                liff.getProfile().then(profile => {
+                    console.log(`User ID: ${profile.userId}`);
+                    console.log(`Display Name: ${profile.displayName}`);
+                    document.getElementById("image").src = profile.pictureUrl;
+                    document.getElementById("displayName").src = profile.displayName;
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        }, err => console.error(err.code, error.message));
+    </script>
+
+    <header>
+        <h1>Welcome to Service Site</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><form action="/search/" method="get">
+                    <input type="text" name="q" placeholder="Search...">
+                    <button type="submit">Search</button>
+                    </form>
+                </li>
+                <li><a href="{% url 'homepage' %}">My Booking</a></li>
+                <li><a href="{% url 'homepage' %}"><p id="displayName" ></p></a></li>
+                <li style="float:right"><a href="{% url 'homepage' %}"><img id="image" src="" width="40" height="40"></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2></h2>
+            <h2>About Me</h2>
+            <p>This is Demo Service Web</p>
+        </section>
+        <hr>
+        <section>
+            <h2>Latest Items</h2>
+            <ul>
+                <li>[Latest News Item 1]</li>
+                <hr>
+                <li>[Latest News Item 2]</li>
+                <hr>
+                <li>[Latest News Item 3]</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 My Homepage. All rights reserved.</p>
+    </footer>
+</body>
+</html>
