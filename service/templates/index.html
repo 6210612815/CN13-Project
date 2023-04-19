@@ -22,14 +22,14 @@
                     }
                     $.ajax({
                         type: "POST",
-                        url: "https://9193-2403-6200-8890-640e-c5c7-5b96-69c-1fd6.ngrok-free.app/lineapi/",
+                        url: "https://4448-124-120-180-120.ngrok-free.app/lineapi/",
                         data: data,
                         dataType: 'JSON',
                         success: function (data) {
                             if (data.in_db) {
-                                window.location.href = "https://9193-2403-6200-8890-640e-c5c7-5b96-69c-1fd6.ngrok-free.app/homepage";
+                                window.location.href = "https://4448-124-120-180-120.ngrok-free.app/homepage";
                             }else{
-                                window.location.href = "https://9193-2403-6200-8890-640e-c5c7-5b96-69c-1fd6.ngrok-free.app/register";
+                                window.location.href = "https://4448-124-120-180-120.ngrok-free.app/register";
                             }
                         }
                     });

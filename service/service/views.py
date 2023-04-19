@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.http import HttpResponse
 from rest_framework import status
-import requests, json, sys
 from student.models import Student, StudentForm
+from django.urls import reverse
+from equipment.models import Equipment
+import requests, json, sys
 
 
 def index(request):
@@ -10,8 +13,49 @@ def index(request):
 
 
 def homepage(request):
-    return render(request, 'homepage.html')
+    equipments = Equipment.objects.all()
+    for item in equipments:
+        item.url = reverse('detail', args=[item.pk])
+    return render(request, 'homepage.html', {'equipments': equipments})
 
+
+def detail(request, pk):
+    equipment = get_object_or_404(Equipment, pk=pk)
+    return render(request, 'detail.html', {'equipment': equipment})
+
+
+def booking_item(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('item_id')
+        userId = request.POST.get('userId')
+        person = Student.objects.get(userId=userId)
+        item = Equipment.objects.get(id=item_id)
+        if item.available == True:
+            item.own = person
+            item.available = False
+            item.save()
+            messages.success(request, 'Item booking success.')
+        else:
+            messages.success(request, 'Item booking fail.')
+        return redirect('detail', pk=item_id)
+
+def return_item(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('item_id')
+        userId = request.POST.get('userId')
+        item = Equipment.objects.get(id=item_id)
+        if item.available == False:
+            item.own = None
+            item.available = True
+            item.save()
+            messages.success(request, 'Item return success.')
+        else:
+            messages.success(request, 'Item return fail.')
+        return redirect('detail', pk=item_id)
+    
+
+def mybooking(request):
+    return render(request, 'mybooking.html')
 
 def lineapi(request):
     try :

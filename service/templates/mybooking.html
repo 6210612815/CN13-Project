@@ -26,7 +26,6 @@
             }
         }, err => console.error(err.code, error.message));
     </script>
-    
 
     <header>
         <h1>Welcome to Service Site</h1>
@@ -47,22 +46,50 @@
 <br>
 <br>
     <main>
-        <section>
-            <h2></h2>
-            <h2>About Me</h2>
-            <p>This is Demo Service Web</p>
-        </section>
-        <hr>
-        <section>
-            <h2>Latest Items</h2>
-            <ul>
-                {% for item in equipments %}
-                    <li><a href="{{ item.url }}">{{ item }}</a></li>
-                {% empty %}
-                    <p>No items found.</p>
-                {% endfor %}
-            </ul>
-        </section>
+        <h3>Your Booking List</h3>
+        <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Serial</th>
+                <th>Name</th>
+                <th>Booking Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>M-312124331</td>
+                <td>mouse</td>
+                <td>5-11-65</td>
+                <td>10-11-65</td>
+                <td>7-11-65</td>
+                <td>returned</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>M-131241123</td>
+                <td>moniter</td>
+                <td>5-11-65</td>
+                <td>10-11-65</td>
+                <td>-</td>
+                <td>booking</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>K-131241123</td>
+                <td>keyboard</td>
+                <td>5-11-65</td>
+                <td>10-11-65</td>
+                <td>-</td>
+                <td>booking</td>
+              </tr>
+            </tbody>
+          </table>
     </main>
 
     <footer>

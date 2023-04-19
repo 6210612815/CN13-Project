@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-c)pyu89vhbv=y%wzddsvz6$5bg@(q@e7h#szhho&55l2t-15gu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-CSRF_TRUSTED_ORIGINS = ["https://9193-2403-6200-8890-640e-c5c7-5b96-69c-1fd6.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://4448-124-120-180-120.ngrok-free.app"]
 ALLOWED_HOSTS = ['*']
 
 
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'student',
+    'equipment',
+    'statistic',
 
 ]
 
@@ -121,6 +123,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+MEDIA_ROOT = 'static/images/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -18,6 +18,8 @@
                     console.log(`User ID: ${profile.userId}`);
                     console.log(`Display Name: ${profile.displayName}`);
                     console.log(`Display Pic: ${profile.pictureUrl}`);
+                    document.getElementById("userId_booking").value = profile.userId;
+                    document.getElementById("userId_return").value = profile.userId;
                     document.getElementById("image").src = profile.pictureUrl;
                     document.getElementById("displayName").value = profile.displayName;
                 }).catch((err) => {
@@ -26,7 +28,6 @@
             }
         }, err => console.error(err.code, error.message));
     </script>
-    
 
     <header>
         <h1>Welcome to Service Site</h1>
@@ -47,22 +48,29 @@
 <br>
 <br>
     <main>
-        <section>
-            <h2></h2>
-            <h2>About Me</h2>
-            <p>This is Demo Service Web</p>
-        </section>
-        <hr>
-        <section>
-            <h2>Latest Items</h2>
-            <ul>
-                {% for item in equipments %}
-                    <li><a href="{{ item.url }}">{{ item }}</a></li>
-                {% empty %}
-                    <p>No items found.</p>
+        <h1>Name : {{ equipment.name }}</h1>
+        <p>Status : {{ equipment.available }}</p>
+        <p>Description : {{ equipment.desc }}</p>
+        <p>Owner : {{ equipment.own }}</p>
+        <form method="post" action="{% url 'booking_item' %}">
+            {% csrf_token %}
+            <input type="hidden" id="userId_booking" name="userId" value="">
+            <input type="hidden" name="item_id" value="{{ equipment.id }}">
+            <button type="submit">Booking</button>
+        </form>
+        <form method="post" action="{% url 'return_item' %}">
+            {% csrf_token %}
+            <input type="hidden" id="userId_return" name="userId" value="">
+            <input type="hidden" name="item_id" value="{{ equipment.id }}">
+            <button type="submit">Return</button>
+        </form>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                 {% endfor %}
             </ul>
-        </section>
+        {% endif %}
     </main>
 
     <footer>
