@@ -20,6 +20,7 @@
                     console.log(`Display Pic: ${profile.pictureUrl}`);
                     document.getElementById("image").src = profile.pictureUrl;
                     document.getElementById("displayName").value = profile.displayName;
+                    document.getElementById("userId_booking").value = profile.userId;
                 }).catch((err) => {
                     console.log(err);
                 });
@@ -33,12 +34,19 @@
         <nav>
             <ul>
                 <li><a href="{% url 'homepage' %}">Home</a></li>
-                <li><form action="/search/" method="get">
+                <li><form action="search/" method="get">
                     <input type="text" name="q" placeholder="Search...">
                     <button type="submit">Search</button>
                     </form>
                 </li>
-                <li><a href="{% url 'mybooking' %}">My Booking</a></li>
+                <li>                
+                    <form method="post" action="{% url 'mybooking' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="userId_booking" name="userId" value="">
+                        <input type="submit" value="My Booking">
+                    </form>
+                </li>
+
                 <li><a href="{% url 'homepage' %}"><p id="displayName" value=""></p></a></li>
                 <li style="float:right"><a href="{% url 'homepage' %}"><img id="image" src="" width="40" height="40"></a></li>
             </ul>

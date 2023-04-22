@@ -20,12 +20,14 @@
                     console.log(`Display Pic: ${profile.pictureUrl}`);
                     document.getElementById("image").src = profile.pictureUrl;
                     document.getElementById("displayName").value = profile.displayName;
+                    document.getElementById("userId_booking").value = profile.userId;
                 }).catch((err) => {
                     console.log(err);
                 });
             }
         }, err => console.error(err.code, error.message));
     </script>
+    
 
     <header>
         <h1>Welcome to Service Site</h1>
@@ -37,59 +39,32 @@
                     <button type="submit">Search</button>
                     </form>
                 </li>
-                <li><a href="{% url 'mybooking' %}">My Booking</a></li>
+                <li>                
+                    <form method="post" action="{% url 'mybooking' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="userId_booking" name="userId" value="">
+                        <input type="submit" value="My Booking">
+                    </form>
+                </li>
                 <li><a href="{% url 'homepage' %}"><p id="displayName" value=""></p></a></li>
                 <li style="float:right"><a href="{% url 'homepage' %}"><img id="image" src="" width="40" height="40"></a></li>
             </ul>
         </nav>
     </header>
-<br>
-<br>
+        <br>
+        <br>
     <main>
-        <h3>Your Booking List</h3>
-        <table>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Serial</th>
-                <th>Name</th>
-                <th>Booking Date</th>
-                <th>Due Date</th>
-                <th>Return Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>M-312124331</td>
-                <td>mouse</td>
-                <td>5-11-65</td>
-                <td>10-11-65</td>
-                <td>7-11-65</td>
-                <td>returned</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>M-131241123</td>
-                <td>moniter</td>
-                <td>5-11-65</td>
-                <td>10-11-65</td>
-                <td>-</td>
-                <td>booking</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>K-131241123</td>
-                <td>keyboard</td>
-                <td>5-11-65</td>
-                <td>10-11-65</td>
-                <td>-</td>
-                <td>booking</td>
-              </tr>
-            </tbody>
-          </table>
+        <ul>
+            {% for i in item %}
+                <li>{{ i.name }}</li>
+                <li>{{ i.desc }}</li>
+                <li>{{ i.own }}</li>
+                <li>{{ i.available }}</li>
+                <hr>
+            {% empty %}
+                <p>No items found.</p>
+            {% endfor %}
+        </ul>
     </main>
 
     <footer>

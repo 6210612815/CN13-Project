@@ -39,7 +39,13 @@
                     <button type="submit">Search</button>
                     </form>
                 </li>
-                <li><a href="{% url 'mybooking' %}">My Booking</a></li>
+                <li>                
+                    <form method="post" action="{% url 'mybooking' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="userId_booking" name="userId" value="">
+                        <input type="submit" value="My Booking">
+                    </form>
+                </li>
                 <li><a href="{% url 'homepage' %}"><p id="displayName" value=""></p></a></li>
                 <li style="float:right"><a href="{% url 'homepage' %}"><img id="image" src="" width="40" height="40"></a></li>
             </ul>
@@ -57,12 +63,6 @@
             <input type="hidden" id="userId_booking" name="userId" value="">
             <input type="hidden" name="item_id" value="{{ equipment.id }}">
             <button type="submit">Booking</button>
-        </form>
-        <form method="post" action="{% url 'return_item' %}">
-            {% csrf_token %}
-            <input type="hidden" id="userId_return" name="userId" value="">
-            <input type="hidden" name="item_id" value="{{ equipment.id }}">
-            <button type="submit">Return</button>
         </form>
         {% if messages %}
             <ul class="messages">
