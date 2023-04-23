@@ -102,8 +102,24 @@
         </div>
             
         <div class="container-product">
-            {% for item in equipments %}
+          {% if items %}
+              <ul>
+              {% for item in items %}
                 <a href="{{ item.url }}">
+                  <div class="product-card">
+                      <div class="product-img">
+                          <img src="{% static item.pic %}">
+                      </div>
+                      <div class="product-desc">
+                          <p>{{ item.name }}</p>
+                      </div>
+                  </div>
+                </a>
+              {% endfor %}
+              </ul>
+          {% else %}
+            {% for item in equipments %}
+              <a href="{{ item.url }}">
                 <div class="product-card">
                     <div class="product-img">
                         <img src="{% static item.pic %}">
@@ -112,10 +128,12 @@
                         <p>{{ item.name }}</p>
                     </div>
                 </div>
-                </a>
+              </a>
             {% empty %}
-                <p>No items found.</p>
+              <p>No items found.</p>
             {% endfor %}
+          {% endif %}
+            
         </div>
     </div>
 {% endblock %}

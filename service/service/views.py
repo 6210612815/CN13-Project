@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponse
+from django.db.models import Q
 from django.urls import reverse
 from rest_framework import status
 from student.models import Student, StudentForm
@@ -8,6 +9,7 @@ from equipment.models import Equipment
 from statistic.models import Statistic
 from datetime import datetime, timedelta
 from linebot import LineBotApi
+
 from linebot.models import TextSendMessage
 import requests, json, sys
 
@@ -168,5 +170,9 @@ def history(request):
 
 def search(request):
     query = request.GET.get('q')
-    equipment = Equipment.objects.filter(name__icontains=query)
-    return render(request, 'detail.html', {'equipment': equipment})
+    if query:
+        items = Equipment.objects.filter(Q(name__icontains=query) | Q(category__icontains=query))
+    else:
+        items = []
+    context = {'items': items, 'query': query}
+    return render(request, 'homepage.html', context)

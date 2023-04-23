@@ -33,7 +33,7 @@
           <div class="left">
             <a href="{% url 'homepage' %}"><div class="logo"><p><span>LibraryOf</span>Things</p></div></a>
             <div class="search_bar">
-                <form action="search/" method="get">
+                <form action="{% url 'search' %}" method="get">
                   <input type="text" name="q" placeholder="Search...">
                   <button type="submit">Search</button>
                 </form>
