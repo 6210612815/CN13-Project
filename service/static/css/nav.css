@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans|Mountains+of+Christmas&display=swap");
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Josefin Sans", sans-serif;
+  /* overflow: hidden; */
+}
+
+.wrapper .multi_color_border{
+  width: 100%;
+  height: 5px;
+  background-color: #879abd;
+}
+
+.wrapper .top_nav{
+  width: 100%;
+  height: 65px;
+  background: #fff;
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrapper .top_nav .left{
+  display: flex;
+  align-items: center;
+}
+
+.wrapper .top_nav .left .logo p{
+  font-size: 24px;
+  font-weight: bold;
+  color: #494949;
+  font-family: "Mountains of Christmas", cursive;
+  margin-right: 25px;
+}
+
+.wrapper .top_nav .left .logo p span{
+  color: #b31e1e;
+  font-family: "Mountains of Christmas", cursive;
+}
+
+.wrapper .top_nav .left .search_bar input[type="text"]{
+  border: 1px solid #666666;
+  padding: 5px 10px; 
+  outline: none;
+  transition: all 0.5s linear;
+}
+
+.wrapper .top_nav .left .search_bar input[type="text"]:focus{
+  width: 250px;
+}
+
+.wrapper .top_nav .right ul{
+  display: flex;
+}
+
+.wrapper .top_nav .right ul li{
+  margin: 0 12px;
+}
+
+.wrapper .top_nav .right ul li:last-child{
+  background:  #b31e1e;
+  margin-right: 0;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.wrapper .top_nav .right ul li:hover:last-child{
+  background: #494949;
+}
+
+.wrapper .top_nav .right ul li a{
+  display: block;
+  padding: 8px 10px;
+  color: #666666;
+}
+
+.wrapper .top_nav .right ul li:last-child a{
+   color: #fff;
+}
+
+.wrapper .bottom_nav{
+  width: 100%;
+  background: #f9f9f9;
+  height: 45px;
+  padding: 0 50px;
+}
+
+.wrapper .bottom_nav ul{
+  width: 100%;
+  height: 45px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.wrapper .bottom_nav ul li a{
+  color: #494949;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.wrapper .banner img{
+  width: 1000px;
+  height: 400px;
+  align-items: center;
+}

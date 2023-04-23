@@ -10,7 +10,7 @@ class Student(models.Model):
     tel = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.sid
+        return self.fname
 
 class StudentForm(forms.ModelForm):
     class Meta:

@@ -1,80 +1,112 @@
-<!DOCTYPE html>
-<html>
-    {% load static %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Service Site</title>
-</head>
-<body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}<title>{{ equipment.name }}</title>{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/detial.css' %}">
+    <script src="{% static '/js/styles.js' %}"></script>
+    <script type="text/javascript" src="/static/js/styles.js"></script>
+{% endblock %}
+
+{% block body %}
     <script>
         liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
             if (!liff.isLoggedIn()) {
                 liff.login();
             }else{
                 liff.getProfile().then(profile => {
-                    console.log(`User ID: ${profile.userId}`);
-                    console.log(`Display Name: ${profile.displayName}`);
-                    console.log(`Display Pic: ${profile.pictureUrl}`);
-                    document.getElementById("userId_booking").value = profile.userId;
-                    document.getElementById("userId_return").value = profile.userId;
-                    document.getElementById("image").src = profile.pictureUrl;
-                    document.getElementById("displayName").value = profile.displayName;
+                    document.getElementById("userId_mybooking").value = profile.userId;
                 }).catch((err) => {
                     console.log(err);
                 });
             }
         }, err => console.error(err.code, error.message));
     </script>
+    {% if messages %}
+    <div class="msg">
+        {% for message in messages %}
+            <div {% if message.tags %} class="alert" id="AB" {% endif %}>{{ message }}
+                
+                <span class="close-btn" id="closeAlert">
+                    <i class="fa fa-close"></i>
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
-    <header>
-        <h1>Welcome to Service Site</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'homepage' %}">Home</a></li>
-                <li><form action="/search/" method="get">
-                    <input type="text" name="q" placeholder="Search...">
-                    <button type="submit">Search</button>
-                    </form>
-                </li>
-                <li>                
-                    <form method="post" action="{% url 'mybooking' %}">
+    <script>
+    var span = document.getElementById("closeAlert");
+    var alertBox = document.getElementById("AB");
+
+    span.onclick = function() {
+        AB.style.display = "none";
+    }
+    </script>
+    <script>
+        var span = document.getElementById("closeAlert");
+        var alertBox = document.getElementById("AB");
+        span.onclick = function() {
+            AB.style.display = "none";
+        }
+    </script>
+    
+    <div class="container">
+        <h1>Detail</h1>
+        <div class="data-container">
+            <img src="{% static equipment.pic %}">
+            <div class="desc">
+                <p>Name: {{ equipment.name }}</p>
+                <p>Category: {{ equipment.name }}</p>
+                <p>Description: {{ equipment.desc }}</p>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h2>Holding information</h2>
+            <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1">No.</div>
+                <div class="col col-2">ID</div>
+                <div class="col col-3">Availability</div>
+                <div class="col col-4">Due Date</div>
+                <div class="col col-5"></div>
+            </li>
+
+            <li class="table-row">
+                <div class="col col-1" data-label="Number"></div>
+                <div class="col col-2" data-label="Id">A001</div>
+                <div class="col col-3" data-label="Availability">
+                    {% if equipment.available %}
+                        <div id="availability-icon">
+                            <svg width="24" height="24">
+                            <circle cx="12" cy="12" r="10" fill="green" />
+                            <path d="M7 13l3 3 7-7" stroke="white" stroke-width="2" fill="none" />
+                            </svg>
+                        </div> 
+                    {% else %}
+                        <div id="cross-icon">
+                            <svg width="24" height="24">
+                                <circle cx="12" cy="12" r="10" fill="red" />
+                            <line x1="7" y1="7" x2="17" y2="17" stroke="white" stroke-width="2" />
+                            <line x1="7" y1="17" x2="17" y2="7" stroke="white" stroke-width="2" />
+                            </svg>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col col-4" data-label="Due Date">{{ statistic.due_datetime }}</div>
+                <div class="col col-5" >
+                    <form method="post" action="{% url 'booking_item' %}">
                         {% csrf_token %}
-                        <input type="hidden" id="userId_booking" name="userId" value="">
-                        <input type="submit" value="My Booking">
+                        <input type="hidden" id="userId_mybooking" name="userId" value="">
+                        <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                        <button type="submit">Booking</button>
                     </form>
-                </li>
-                <li><a href="{% url 'homepage' %}"><p id="displayName" value=""></p></a></li>
-                <li style="float:right"><a href="{% url 'homepage' %}"><img id="image" src="" width="40" height="40"></a></li>
+                </div>
+            </li>
             </ul>
-        </nav>
-    </header>
-<br>
-<br>
-    <main>
-        <h1>Name : {{ equipment.name }}</h1>
-        <p>Status : {{ equipment.available }}</p>
-        <p>Description : {{ equipment.desc }}</p>
-        <p>Owner : {{ equipment.own }}</p>
-        <form method="post" action="{% url 'booking_item' %}">
-            {% csrf_token %}
-            <input type="hidden" id="userId_booking" name="userId" value="">
-            <input type="hidden" name="item_id" value="{{ equipment.id }}">
-            <button type="submit">Booking</button>
-        </form>
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </main>
+        </div>
+    </div>
+{% endblock %}
 
-    <footer>
-        <p>&copy; 2023 My Homepage. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+

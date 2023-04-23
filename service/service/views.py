@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponse
-from rest_framework import status
 from django.urls import reverse
+from rest_framework import status
 from student.models import Student, StudentForm
 from equipment.models import Equipment
 from statistic.models import Statistic
-from datetime import datetime
+from datetime import datetime, timedelta
+from linebot import LineBotApi
+from linebot.models import TextSendMessage
 import requests, json, sys
 
 def lineapi(request):
@@ -33,20 +35,18 @@ def lineapi(request):
     except Exception as e:
         print("{0} : {1}".format(sys.exc_info()[-1].tb_lineno,str(e)))
         return HttpResponse(json.dumps({'message': 'Get some errors'},default=str), content_type="application/json")
-    
-def mybooking(request):
-    if request.method == 'POST':
-
-        userId = request.POST.get('userId')
-        print(userId)
-        person = Student.objects.get(userId=userId)
-        item = Equipment.objects.filter(own=person)
-        print(item)
-        return render(request, 'mybooking.html', {'item': item})
-
 
 def index(request):
     return render(request, 'index.html')
+
+def category(request):
+    return render(request, 'category.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def service(request):
+    return render(request, 'service.html')
 
 def homepage(request):
     equipments = Equipment.objects.all()
@@ -81,6 +81,21 @@ def booking_item(request):
             item.own = person
             item.available = False
             item.save()
+
+            #Sent Notification to chat "Booking Success"
+            ACCESS_TOKEN = 'nRM+jswJLKE7NKjHM1XQTs9oh2f+5iKLtM77Nzrufy8Dx1D710UWp28D0qbIzC9srHUdLAX4ReEue8UlcR6mdFbQPJF0U8Qp4TGxb76wwNIgVUl0l5vd6sCiDsjY7RRuae6OvwRija5/+DnF972L8AdB04t89/1O/w1cDnyilFU='
+            USER_ID = userId
+            MESSAGE = {'type': 'text', 'text': 'Your Booking is Success'}
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {ACCESS_TOKEN}'
+            }
+            data = {
+                'to': USER_ID,
+                'messages': [MESSAGE]
+            }
+            requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
+
             #Add to Statistic Models
             statistic = Statistic(owner=person, item=item, return_datetime=None)
             statistic.save()
@@ -89,6 +104,15 @@ def booking_item(request):
             messages.success(request, 'Item booking fail.')
         return redirect('detail', pk=item_id)
 
+def mybooking(request):
+    if request.method == 'POST':
+        userId = request.POST.get('userId')
+        person = Student.objects.get(userId=userId)
+        statistic = Statistic.objects.filter(owner=person)
+        return render(request, 'mybooking.html', {'statistic': statistic})
+        
+def history(request):
+    return render(request, 'history.html')   
 
 def search(request):
     query = request.GET.get('q')

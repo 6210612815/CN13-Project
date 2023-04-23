@@ -1,74 +1,59 @@
-<!DOCTYPE html>
-<html>
-    {% load static %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Service Site</title>
-</head>
-<body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}<title>My Booking</title>{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/status.css' %}">
+<script src="{% static '/js/styles.js' %}"></script>
+<script type="text/javascript" src="/static/js/styles.js"></script>
+{% endblock %}
+
+{% block body %}
     <script>
         liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
             if (!liff.isLoggedIn()) {
                 liff.login();
             }else{
                 liff.getProfile().then(profile => {
-                    console.log(`User ID: ${profile.userId}`);
-                    console.log(`Display Name: ${profile.displayName}`);
-                    console.log(`Display Pic: ${profile.pictureUrl}`);
-                    document.getElementById("image").src = profile.pictureUrl;
-                    document.getElementById("displayName").value = profile.displayName;
-                    document.getElementById("userId_booking").value = profile.userId;
+                    document.getElementById("userId_mybooking").value = profile.userId;
                 }).catch((err) => {
                     console.log(err);
                 });
             }
         }, err => console.error(err.code, error.message));
-    </script>
-    
+    </script> 
 
-    <header>
-        <h1>Welcome to Service Site</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'homepage' %}">Home</a></li>
-                <li><form action="/search/" method="get">
-                    <input type="text" name="q" placeholder="Search...">
-                    <button type="submit">Search</button>
-                    </form>
-                </li>
-                <li>                
-                    <form method="post" action="{% url 'mybooking' %}">
-                        {% csrf_token %}
-                        <input type="hidden" id="userId_booking" name="userId" value="">
-                        <input type="submit" value="My Booking">
-                    </form>
-                </li>
-                <li><a href="{% url 'homepage' %}"><p id="displayName" value=""></p></a></li>
-                <li style="float:right"><a href="{% url 'homepage' %}"><img id="image" src="" width="40" height="40"></a></li>
-            </ul>
-        </nav>
-    </header>
-        <br>
-        <br>
-    <main>
-        <ul>
-            {% for i in item %}
-                <li>{{ i.name }}</li>
-                <li>{{ i.desc }}</li>
-                <li>{{ i.own }}</li>
-                <li>{{ i.available }}</li>
-                <hr>
-            {% empty %}
-                <p>No items found.</p>
-            {% endfor %}
-        </ul>
-    </main>
+    <div class="container">
+        <h1>My Booking</h1>
+        <div class="sub-contain">
+            <div class="side-menu close">
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">2023</a></li>
+                    <li><a href="#">January</a></li>
+                    <li><a href="#">Febuary</a></li>
+                    <li><a href="#">March</a></li>
+                </ul>
+            </div>
 
-    <footer>
-        <p>&copy; 2023 My Homepage. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+            <div class ="list-container">
+                <div class="list">
+                    {% for s in statistic %}
+                        <img src="{% static s.item.pic %}">
+                        <div class="text">
+                            <p>{{ s.item }}</p>
+                            {% if s.return_datetime is None %}
+                                <div class="status-line"><p>Status: <div class="btn-borr">Borrowing</div></p></div>
+                            {% else %}
+                                <div class="status-line"><p>Status: <div class="btn-return">Return</div></p></div>
+                            {% endif %}    
+                            <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
+                            <p class="txt-small">Due date: {{ s.due_datetime }}</p>
+                            <p class="txt-small">Return date: {{ s.return_datetime }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

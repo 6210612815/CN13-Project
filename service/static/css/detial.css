@@ -1,0 +1,202 @@
+h1 {
+    font-size: 40px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    /* margin-left: auto;
+    margin-right: auto; */
+    width: 100%;
+}
+
+.container .data-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.container .data-container img {
+    width: 500px;
+    height: 400px;
+    object-fit: contain;
+}
+
+.container .data-container .desc {
+    padding: 20px;
+    line-height: 2;
+    background-color: white;
+    height: 400px;
+    width: 100%;
+}
+
+.container .data-container p {
+    font-size: large;
+}
+
+.table-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: auto;
+    margin-top: 50px;
+    width: 100%;
+    counter-reset: rowNumber;
+}
+
+.responsive-table li {
+    border-radius: 3px;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.responsive-table .table-header {
+    background-color: #b31e1e;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #fff;
+}
+
+.responsive-table .table-row {
+    background-color: #fff;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+    align-items: baseline;
+}
+
+.responsive-table .col-1 {
+    flex-basis: 15%;
+}
+
+.responsive-table .table-row .col-1::before {
+    counter-increment: rowNumber;
+    content: counter(rowNumber);
+}
+
+.responsive-table .col-2 {
+    flex-basis: 25%;
+}
+
+.responsive-table .col-3 {
+    flex-basis: 25%;
+}
+
+.responsive-table .col-4 {
+    flex-basis: 25%;
+}
+
+.responsive-table .col-5 {
+    flex-basis: 10%;
+}
+
+@media all and (max-width: 767px) {
+    .responsive-table .table-header {
+        display: none;
+   }
+    .responsive-table li {
+        display: block;
+   }
+    .responsive-table .col {
+        flex-basis: 100%;
+   }
+    .responsive-table .col {
+        display: flex;
+        padding: 10px 0;
+   }
+    .responsive-table .col:before {
+        color: #6c7a89;
+        padding-right: 10px;
+        content: attr(data-label);
+        flex-basis: 50%;
+        text-align: right;
+   }
+   .container .data-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .container .data-container img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+    .container .data-container .desc {
+        height: auto;
+    }
+}
+
+.responsive-table li button {
+    align-items: center;
+    appearance: none;
+    background-color: #fff;
+    border-radius: 24px;
+    border-style: none;
+    box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+    box-sizing: border-box;
+    color: #3c4043;
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    
+    font-size: 16px;
+    font-weight: 500;
+    height: 36px;
+    justify-content: center;
+    letter-spacing: .25px;
+    line-height: normal;
+    max-width: 100%;
+    overflow: visible;
+    padding: 2px 16px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto;
+    will-change: transform,opacity;
+    z-index: 0;
+  }
+  
+  .responsive-table li button:hover {
+    background: #F6F9FE;
+    color: #174ea6;
+  }
+  
+  .responsive-table li button:active {
+    box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
+    outline: none;
+  }
+  
+  .responsive-table li button:focus {
+    outline: none;
+    border: 2px solid #4285f4;
+  }
+  
+  .responsive-table li button:not(:disabled) {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+  }
+  
+  .responsive-table li button:not(:disabled):hover {
+    box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+  }
+  
+  .responsive-table li button:not(:disabled):focus {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+  }
+  
+  .responsive-table li button:not(:disabled):active {
+    box-shadow: rgba(60, 64, 67, .3) 0 4px 4px 0, rgba(60, 64, 67, .15) 0 8px 12px 6px;
+  }
+  
+  .responsive-table li button:disabled {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+  }

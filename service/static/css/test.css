@@ -1,0 +1,27 @@
+/* Navigation bar styling */
+nav {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+
+  /* Navigation links styling */
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+
+  /* Add hover effect to navigation links */
+  nav a:hover {
+    color: blue;
+    text-decoration: underline;
+  }
+
+  /* Add active class to current page link */
+  nav a.active {
+    color: red;
+    font-weight: bold;
+  }

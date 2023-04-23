@@ -1,35 +1,27 @@
-{% load static %}
-
 <html>
-    <head>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Welcome to Service Site</title>
-    </head>
     <body>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
         <script>
             liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
-                if (!liff.isLoggedIn()) {
+                if(!liff.isLoggedIn()){
                     liff.login();
-                } else {
+                }else{
                     const accessToken = liff.getAccessToken();
-                    
                     let data = {                    
                         'access_token': accessToken,
                         'csrfmiddlewaretoken': '{{ csrf_token }}'
                     }
                     $.ajax({
                         type: "POST",
-                        url: "https://5901-124-120-180-120.ngrok-free.app/lineapi/",
+                        url: "https://2a4c-58-8-172-141.ngrok-free.app/lineapi/",
                         data: data,
                         dataType: 'JSON',
                         success: function (data) {
                             if (data.in_db) {
-                                window.location.href = "https://5901-124-120-180-120.ngrok-free.app/homepage";
+                                window.location.href = "https://2a4c-58-8-172-141.ngrok-free.app/homepage";
                             }else{
-                                window.location.href = "https://5901-124-120-180-120.ngrok-free.app/register";
+                                window.location.href = "https://2a4c-58-8-172-141.ngrok-free.app/register";
                             }
                         }
                     });

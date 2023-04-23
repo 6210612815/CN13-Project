@@ -1,0 +1,69 @@
+{% load static %}
+<html>
+  <head>
+      {% block title %}{% endblock %}
+      {% block head %}{% endblock %}
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static '/css/nav_login.css' %}">
+  </head>
+
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+    <script>
+        liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
+            if (!liff.isLoggedIn()) {
+                liff.login();
+            }else{
+                liff.getProfile().then(profile => {
+                    document.getElementById("image").src = profile.pictureUrl;
+                    document.getElementById("displayName").value = profile.displayName;
+                    document.getElementById("userId_booking").value = profile.userId;
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        }, err => console.error(err.code, error.message));
+    </script>
+    <div class="wrapper">
+      <div class="top_nav">
+          <div class="left">
+            <a href="{% url 'homepage' %}"><div class="logo"><p><span>LibraryOf</span>Things</p></div></a>
+            <div class="search_bar">
+                <form action="search/" method="get">
+                  <input type="text" name="q" placeholder="Search...">
+                  <button type="submit">Search</button>
+                </form>
+            </div>
+        </div> 
+        <div class="right">
+          <ul>
+            <div class="user-dropdown">
+              <li class="dropbtn"><img id="image" src="" width="40" height="40"></li>
+              <div class="dropdown-content">
+                <a href="{% url 'profile' %}">Profile</a>
+                <form method="post" action="{% url 'mybooking' %}">
+                  {% csrf_token %}
+                  <input type="hidden" id="userId_booking" name="userId" value="">
+                  <input type="submit" value="My Booking">
+                </form>
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom_nav">
+        <ul>
+          <li><a href="{% url 'homepage' %}">Home</a></li>
+          <li><a href="{% url 'service' %}">Service</a></li>
+          <li><a href="{% url 'category' %}">Category</a></li>
+        </ul>
+      </div>
+    </div>
+    {% block body %}
+    {% endblock %}
+  </body>
+</html>
