@@ -50,6 +50,9 @@ def profile(request):
 def service(request):
     return render(request, 'service.html')
 
+def about(request):
+    return render(request, 'about.html')
+
 def homepage(request):
     equipments = Equipment.objects.all()
     for item in equipments:
