@@ -4,8 +4,8 @@ from .models import Equipment
 # Register your models here.
 
 class EquipmentAdmin(admin.ModelAdmin):
-    fields  = ('name', 'desc', 'pic', 'own','available')
-    list_display  = ('name', 'desc', 'pic', 'own','available')
-    search_fields = ('name', 'own','available')
+    fields  = ('name', 'desc', 'pic', 'own', 'available', 'picked', 'category')
+    list_display  = ('name', 'pic', 'own', 'available', 'create_datetime', 'picked', 'category')
+    search_fields = ('name', 'own', 'available', 'create_datetime', 'picked', 'category')
 
 admin.site.register(Equipment, EquipmentAdmin)

@@ -3,7 +3,7 @@
 {% block title %}<title>My Booking</title>{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/status.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/mybooking.css' %}">
 <script src="{% static '/js/styles.js' %}"></script>
 <script type="text/javascript" src="/static/js/styles.js"></script>
 {% endblock %}
@@ -15,7 +15,10 @@
                 liff.login();
             }else{
                 liff.getProfile().then(profile => {
-                    document.getElementById("userId_mybooking").value = profile.userId;
+                    document.getElementById("userId_booking").value = profile.userId;
+                    document.getElementById("userId_booking0").value = profile.userId;
+                    document.getElementById("userId_booking1").value = profile.userId;
+                    document.getElementById("userId_booking2").value = profile.userId;
                 }).catch((err) => {
                     console.log(err);
                 });
@@ -28,10 +31,28 @@
         <div class="sub-contain">
             <div class="side-menu close">
                 <ul class="sub-menu">
-                    <li><a class="link_name" href="#">2023</a></li>
-                    <li><a href="#">January</a></li>
-                    <li><a href="#">Febuary</a></li>
-                    <li><a href="#">March</a></li>
+                    <li><p>Sort By</p></li>
+                    <li>
+                        <form method="post" action="{% url 'mybooking' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking0" name="userId" value="">
+                            <input type="submit" value="All">
+                        </form>
+                    </li>  
+                    <li>
+                        <form method="post" action="{% url 'my_booking_not_return' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking1" name="userId" value="">
+                            <input type="submit" value="Booking">
+                        </form>
+                    </li>    
+                    <li>
+                        <form method="post" action="{% url 'my_booking_return' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking2" name="userId" value="">
+                            <input type="submit" value="Returned">
+                        </form>
+                    </li>  
                 </ul>
             </div>
 
@@ -42,14 +63,16 @@
                         <div class="text">
                             <p>{{ s.item }}</p>
                             {% if s.return_datetime is None %}
-                                <div class="status-line"><p>Status: <div class="btn-borr">Borrowing</div></p></div>
+                                <div class="status-line"><p>Status: <div class="btn-borr">Booking</div></p></div>
                             {% else %}
-                                <div class="status-line"><p>Status: <div class="btn-return">Return</div></p></div>
+                                <div class="status-line"><p>Status: <div class="btn-return">Returned</div></p></div>
                             {% endif %}    
                             <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
                             <p class="txt-small">Due date: {{ s.due_datetime }}</p>
                             <p class="txt-small">Return date: {{ s.return_datetime }}</p>
                         </div>
+                    {% empty %}
+                        <p class="txt-small">No item found</p>
                     {% endfor %}
                 </div>
             </div>

@@ -3,7 +3,7 @@
 {% block title %}<title>{{ equipment.name }}</title>{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/detial.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/detials.css' %}">
     <script src="{% static '/js/styles.js' %}"></script>
     <script type="text/javascript" src="/static/js/styles.js"></script>
 {% endblock %}
@@ -69,13 +69,14 @@
                 <div class="col col-1">No.</div>
                 <div class="col col-2">ID</div>
                 <div class="col col-3">Availability</div>
-                <div class="col col-4">Due Date</div>
-                <div class="col col-5"></div>
+                <div class="col col-4">Category</div>
+                <div class="col col-5">Due Date</div>
+                <div class="col col-5">Operation</div>
             </li>
 
             <li class="table-row">
                 <div class="col col-1" data-label="Number"></div>
-                <div class="col col-2" data-label="Id">A001</div>
+                <div class="col col-2" data-label="Id">{{ equipment.id }}</div>
                 <div class="col col-3" data-label="Availability">
                     {% if equipment.available %}
                         <div id="availability-icon">
@@ -94,8 +95,10 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="col col-4" data-label="Due Date">{{ statistic.due_datetime }}</div>
-                <div class="col col-5" >
+                <div class="col col-4" data-label="Category">{{ equipment.category }}</div>
+                <!-- if not available sent statistic object an show due date -->
+                <div class="col col-5" data-label="Due Date">{{ statistic.due_datetime }}</div>
+                <div class="col col-6" >
                     <form method="post" action="{% url 'booking_item' %}">
                         {% csrf_token %}
                         <input type="hidden" id="userId_mybooking" name="userId" value="">

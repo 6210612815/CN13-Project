@@ -54,6 +54,24 @@ def homepage(request):
         item.url = reverse('detail', args=[item.pk])
     return render(request, 'homepage.html', {'equipments': equipments})
 
+def homepage_sort_datetime(request):
+    equipments = Equipment.objects.all().order_by('create_datetime')
+    for item in equipments:
+        item.url = reverse('detail', args=[item.pk])
+    return render(request, 'homepage.html', {'equipments': equipments})
+
+def homepage_sort_picked(request):
+    equipments = Equipment.objects.all().order_by('-picked')
+    for item in equipments:
+        item.url = reverse('detail', args=[item.pk])
+    return render(request, 'homepage.html', {'equipments': equipments})
+
+def homepage_sort_name(request):
+    equipments = Equipment.objects.all().order_by('name')
+    for item in equipments:
+        item.url = reverse('detail', args=[item.pk])
+    return render(request, 'homepage.html', {'equipments': equipments})
+
 def register(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
@@ -68,7 +86,12 @@ def register(request):
 
 def detail(request, pk):
     equipment = get_object_or_404(Equipment, pk=pk)
-    return render(request, 'detail.html', {'equipment': equipment})
+    if equipment.available == True:
+        return render(request, 'detail.html', {'equipment': equipment})
+    else:
+        statistic = Statistic.objects.get(item=equipment, return_datetime=None)
+        return render(request, 'detail.html', {'equipment': equipment,
+                                               'statistic': statistic})
 
 def booking_item(request):
     if request.method == 'POST':
@@ -80,12 +103,19 @@ def booking_item(request):
             #Changing Equipment Models
             item.own = person
             item.available = False
+            item.picked += 1
             item.save()
+
+            #Add to Statistic Models
+            statistic = Statistic(owner=person, item=item, return_datetime=None)
+            statistic.save()
 
             #Sent Notification to chat "Booking Success"
             ACCESS_TOKEN = 'nRM+jswJLKE7NKjHM1XQTs9oh2f+5iKLtM77Nzrufy8Dx1D710UWp28D0qbIzC9srHUdLAX4ReEue8UlcR6mdFbQPJF0U8Qp4TGxb76wwNIgVUl0l5vd6sCiDsjY7RRuae6OvwRija5/+DnF972L8AdB04t89/1O/w1cDnyilFU='
             USER_ID = userId
-            MESSAGE = {'type': 'text', 'text': 'Your Booking is Success'}
+            date_time = statistic.due_datetime
+            formatted_date_time = date_time.strftime("%d/%m/%Y")
+            MESSAGE = {'type': 'text', 'text': f'Your Booking is Success.\n You booked a {item.name}.\n Due Date : {formatted_date_time}'}
             headers = {
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {ACCESS_TOKEN}'
@@ -95,10 +125,6 @@ def booking_item(request):
                 'messages': [MESSAGE]
             }
             requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
-
-            #Add to Statistic Models
-            statistic = Statistic(owner=person, item=item, return_datetime=None)
-            statistic.save()
             messages.success(request, 'Item booking success.')
         else:
             messages.success(request, 'Item booking fail.')
@@ -108,9 +134,35 @@ def mybooking(request):
     if request.method == 'POST':
         userId = request.POST.get('userId')
         person = Student.objects.get(userId=userId)
-        statistic = Statistic.objects.filter(owner=person)
-        return render(request, 'mybooking.html', {'statistic': statistic})
-        
+        try:
+            statistic = Statistic.objects.filter(owner=person)
+            return render(request, 'mybooking.html', {'statistic': statistic})
+        except ValueError as e:
+            return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
+    return render(request, 'homepage.html')
+
+def my_booking_not_return(request):
+    if request.method == 'POST':
+        userId = request.POST.get('userId')
+        person = Student.objects.get(userId=userId)
+        try:
+            statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True)
+            return render(request, 'mybooking.html', {'statistic': statistic})
+        except ValueError as e:
+            return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
+    return render(request, 'homepage.html')
+    
+def my_booking_return(request):
+    if request.method == 'POST':
+        userId = request.POST.get('userId')
+        person = Student.objects.get(userId=userId)
+        try:
+            statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=False)
+            return render(request, 'mybooking.html', {'statistic': statistic})
+        except ValueError as e:
+            return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
+    return render(request, 'homepage.html')
+    
 def history(request):
     return render(request, 'history.html')   
 

@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 class Statistic(models.Model):
     item = models.ForeignKey(Equipment, on_delete=models.CASCADE)
     owner = models.ForeignKey(Student, on_delete=models.CASCADE)
-    booking_datetime = models.DateTimeField(default=datetime.now() + timedelta(days=7))
+    booking_datetime = models.DateTimeField(default=datetime.now())
     due_datetime = models.DateTimeField(default=datetime.now() + timedelta(days=7))
     return_datetime = models.DateTimeField(blank=True, null=True)
 

@@ -35,8 +35,6 @@
 .side-menu .sub-menu {
     padding: 6px 6px 14px 80px;
     margin-top: -10px;
-    /* background: #1d1b31; */
-    display: none;
 }
 
 .list-container {
@@ -82,8 +80,6 @@
     white-space: nowrap;
     max-width: 300px;
 }
-
-
 
 .btn-borr {
     width: auto;
