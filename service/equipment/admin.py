@@ -5,7 +5,7 @@ from .models import Equipment
 
 class EquipmentAdmin(admin.ModelAdmin):
     fields  = ('name', 'desc', 'pic', 'own', 'available', 'picked', 'category')
-    list_display  = ('name', 'pic', 'own', 'available', 'create_datetime', 'picked', 'category')
+    list_display  = ('name', 'own', 'available', 'create_datetime', 'picked', 'category')
     search_fields = ('name', 'own', 'available', 'create_datetime', 'picked', 'category')
 
 admin.site.register(Equipment, EquipmentAdmin)

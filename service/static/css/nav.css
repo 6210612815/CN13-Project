@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans|Mountains+of+Christmas&display=swap");
-
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap');
 
 * {
   margin: 0;
@@ -39,13 +38,15 @@
   font-size: 24px;
   font-weight: bold;
   color: #494949;
-  font-family: "Mountains of Christmas", cursive;
+  /* font-family: "Mountains of Christmas", cursive; */
+  font-family: 'Nothing You Could Do', cursive;
   margin-right: 25px;
 }
 
 .wrapper .top_nav .left .logo p span{
   color: #b31e1e;
-  font-family: "Mountains of Christmas", cursive;
+  font-family: 'Nothing You Could Do', cursive;
+  /* font-weight: bold; */
 }
 
 .wrapper .top_nav .left .search_bar input[type="text"]{
@@ -61,23 +62,24 @@
 
 .wrapper .top_nav .right ul{
   display: flex;
+  align-items: center;
 }
 
 .wrapper .top_nav .right ul li{
   margin: 0 12px;
 }
 
-.wrapper .top_nav .right ul li:last-child{
+/* .wrapper .top_nav .right ul li:last-child{
   background:  #b31e1e;
   margin-right: 0;
   border-radius: 2px;
   text-transform: uppercase;
   letter-spacing: 3px;
-}
+} */
 
-.wrapper .top_nav .right ul li:hover:last-child{
+/* .wrapper .top_nav .right ul li:hover:last-child{
   background: #494949;
-}
+} */
 
 .wrapper .top_nav .right ul li a{
   display: block;
@@ -89,14 +91,15 @@
    color: #fff;
 }
 
-.wrapper .bottom_nav{
+.wrapper .bottom_nav {
   width: 100%;
   background: #f9f9f9;
   height: 45px;
   padding: 0 50px;
+  position:relative;
 }
 
-.wrapper .bottom_nav ul{
+.wrapper .bottom_nav ul {
   width: 100%;
   height: 45px;
   display: flex;
@@ -104,15 +107,90 @@
   align-items: center;
 }
 
-.wrapper .bottom_nav ul li a{
+.wrapper .bottom_nav ul li a {
   color: #494949;
   letter-spacing: 2px;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 14px;
+  width: 100%;
+  height: 100%;
 }
 
-.wrapper .banner img{
-  width: 1000px;
-  height: 400px;
-  align-items: center;
+.wrapper .bottom_nav ul li:hover > ul {
+  display: block;
+  z-index: 1;
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  column-gap: 60px;
 }
+
+.wrapper .bottom_nav ul ul {
+  background: #ffffff;
+  padding: 0;
+  text-align: left;
+  display: none;
+  width: 100%;
+  min-height: 100px;
+  max-height: 300px;
+  height: auto;
+  position: absolute;
+  left: 0px;
+  padding: 30px 60px;
+  border-bottom: 5px solid #b31e1e;
+
+}
+
+.wrapper .bottom_nav ul ul li {
+  padding: 10px;
+}
+
+/* .dropbtn {
+    background-color: #89898fd8;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  } */
+
+.user-dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.user-dropdown:hover .dropdown-content {display: block;}
+
+
+@media all and (max-width : 500px) {
+
+	.top_nav .left .search_bar {
+		width: 60px;
+	}
+	.wrapper .top_nav .left .search_bar input[type="text"]{
+		width: 60px;
+	}
+	
+	.wrapper .top_nav .left .search_bar input[type="text"]:focus{
+		width: 60px;
+	}
+
+}
+

@@ -6,16 +6,11 @@ from student.models import Student
 class Equipment(models.Model):
     CATEGORY = (
             ('Laptops', 'Laptops'),
-            ('Components', 'Components'),
             ('Mouse', 'Mouse'),
             ('Keyboards', 'Keyboards'),
-            ('Audio', 'Audio'),
-            ('Console', 'Console'),
             ('Monitors', 'Monitors'),
-            ('Headsets', 'Headsets'),
             ('Speaker', 'Speaker'),
-            ('Productivity', 'Productivity'),
-            ('Books', 'Books'),
+            ('Headsets', 'Headsets'),     
     )
 
     name = models.CharField(max_length=100)

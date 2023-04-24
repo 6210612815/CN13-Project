@@ -7,7 +7,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
-      <link rel="stylesheet" type="text/css" href="{% static '/css/nav_login.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static '/css/nav.css' %}">
   </head>
 
   <body>
@@ -22,6 +22,7 @@
                     document.getElementById("image").src = profile.pictureUrl;
                     document.getElementById("displayName").value = profile.displayName;
                     document.getElementById("userId_booking").value = profile.userId;
+                    document.getElementById("userId_profile").value = profile.userId;
                 }).catch((err) => {
                     console.log(err);
                 });
@@ -44,7 +45,11 @@
             <div class="user-dropdown">
               <li class="dropbtn"><img id="image" src="" width="40" height="40"></li>
               <div class="dropdown-content">
-                <a href="{% url 'profile' %}">Profile</a>
+                <form method="post" action="{% url 'profile' %}">
+                  {% csrf_token %}
+                  <input type="hidden" id="userId_profile" name="userId" value="">
+                  <input type="submit" value="Profile">
+                </form>
                 <form method="post" action="{% url 'mybooking' %}">
                   {% csrf_token %}
                   <input type="hidden" id="userId_booking" name="userId" value="">
@@ -60,7 +65,17 @@
           <li><a href="{% url 'homepage' %}">Home</a></li>
           <li><a href="{% url 'about' %}">About Us</a></li>
           <li><a href="{% url 'service' %}">Service</a></li>
-          <li><a href="{% url 'category' %}">Category</a></li>
+          <li>
+            <a href="#">Category</a>
+            <ul>
+              <li><a href="{% url 'homepage_choice' 'Laptops' %}">Laptops</a></li>
+              <li><a href="{% url 'homepage_choice' 'Mouse' %}">Mouse</a></li>
+              <li><a href="{% url 'homepage_choice' 'Keyboards' %}">Keyboards</a></li>
+              <li><a href="{% url 'homepage_choice' 'Monitors' %}">Monitors</a></li>
+              <li><a href="{% url 'homepage_choice' 'Headsets' %}">Headsets</a></li>
+              <li><a href="{% url 'homepage_choice' 'Speaker' %}">Speaker</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>

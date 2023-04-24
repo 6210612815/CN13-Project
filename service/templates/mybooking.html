@@ -3,7 +3,7 @@
 {% block title %}<title>My Booking</title>{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/mybooking.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/mybookings.css' %}">
 <script src="{% static '/js/styles.js' %}"></script>
 <script type="text/javascript" src="/static/js/styles.js"></script>
 {% endblock %}
@@ -64,12 +64,22 @@
                             <p>{{ s.item }}</p>
                             {% if s.return_datetime is None %}
                                 <div class="status-line"><p>Status: <div class="btn-borr">Booking</div></p></div>
+                                <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
+                                <p class="txt-small">Due date: {{ s.due_datetime }}</p>
+                                <p class="txt-small">Return date: -</p>
+                    
+                                {% if s.due_datetime < now %}
+                                    <div class="status-line"><p>Status: <div class="btn-over">Overdue</div></p></div>
+                                    <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
+                                    <p class="txt-small">Due date: {{ s.due_datetime }}</p>
+                                    <p class="txt-small">Return date: -</p>
+                                {% endif %} 
                             {% else %}
                                 <div class="status-line"><p>Status: <div class="btn-return">Returned</div></p></div>
+                                <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
+                                <p class="txt-small">Due date: {{ s.due_datetime }}</p>
+                                <p class="txt-small">Return date: {{ s.return_datetime }}</p>
                             {% endif %}    
-                            <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
-                            <p class="txt-small">Due date: {{ s.due_datetime }}</p>
-                            <p class="txt-small">Return date: {{ s.return_datetime }}</p>
                         </div>
                     {% empty %}
                         <p class="txt-small">No item found</p>

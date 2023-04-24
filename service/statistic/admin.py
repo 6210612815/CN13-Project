@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Statistic
 
+
 # Register your models here.
 
 class StatisticAdmin(admin.ModelAdmin):
@@ -9,3 +10,7 @@ class StatisticAdmin(admin.ModelAdmin):
     search_fields = ('item', 'owner', 'booking_datetime', 'due_datetime','return_datetime')
 
 admin.site.register(Statistic, StatisticAdmin)
+
+
+
+

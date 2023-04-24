@@ -41,12 +41,6 @@ def lineapi(request):
 def index(request):
     return render(request, 'index.html')
 
-def category(request):
-    return render(request, 'category.html')
-
-def profile(request):
-    return render(request, 'profile.html')
-
 def service(request):
     return render(request, 'service.html')
 
@@ -58,6 +52,11 @@ def homepage(request):
     for item in equipments:
         item.url = reverse('detail', args=[item.pk])
     return render(request, 'homepage.html', {'equipments': equipments})
+    
+def homepage_choice(request, choice):
+    if request.method == 'GET':
+        equipments = Equipment.objects.filter(category=choice)
+        return render(request, 'homepage.html', {'equipments': equipments})
 
 def homepage_sort_datetime(request):
     equipments = Equipment.objects.all().order_by('create_datetime')
@@ -66,7 +65,7 @@ def homepage_sort_datetime(request):
     return render(request, 'homepage.html', {'equipments': equipments})
 
 def homepage_sort_picked(request):
-    equipments = Equipment.objects.all().order_by('-picked')
+    equipments = Equipment.objects.all().order_by('picked')
     for item in equipments:
         item.url = reverse('detail', args=[item.pk])
     return render(request, 'homepage.html', {'equipments': equipments})
@@ -116,7 +115,7 @@ def booking_item(request):
             statistic.save()
 
             #Sent Notification to chat "Booking Success"
-            ACCESS_TOKEN = 'nRM+jswJLKE7NKjHM1XQTs9oh2f+5iKLtM77Nzrufy8Dx1D710UWp28D0qbIzC9srHUdLAX4ReEue8UlcR6mdFbQPJF0U8Qp4TGxb76wwNIgVUl0l5vd6sCiDsjY7RRuae6OvwRija5/+DnF972L8AdB04t89/1O/w1cDnyilFU='
+            ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
             USER_ID = userId
             date_time = statistic.due_datetime
             formatted_date_time = date_time.strftime("%d/%m/%Y")
@@ -179,3 +178,83 @@ def search(request):
         items = []
     context = {'items': items, 'query': query}
     return render(request, 'homepage.html', context)
+
+def sent_list(request):
+    return render(request, 'sent_list.html')
+
+def sent_list_to_chat(request):
+    try :
+        access_token = request.POST.get('access_token')
+        params = {
+            'access_token': access_token,
+        }
+        check_verify_response = requests.get('https://api.line.me/oauth2/v2.1/verify', params=params)
+
+        if check_verify_response.status_code == status.HTTP_200_OK:
+            headers = {
+                'Authorization':f'Bearer {access_token}',
+            }
+            response = requests.get('https://api.line.me/v2/profile', headers=headers)
+            userId = json.loads(response.text)["userId"]
+            person = Student.objects.get(userId=userId)
+
+            try:
+                statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True)
+                #Sent Notification to chat "Header"
+                ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
+                USER_ID = userId
+                MESSAGE = {'type': 'text', 'text': f'This is Your Booking List.'}
+                headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': f'Bearer {ACCESS_TOKEN}'
+                }
+                data = {
+                    'to': USER_ID,
+                    'messages': [MESSAGE]
+                }
+                requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
+
+                for stat in statistic:
+                    #Sent Notification to chat "List"
+                    ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
+                    USER_ID = userId
+                    date_time = stat.due_datetime
+                    formatted_date_time = date_time.strftime("%d/%m/%Y")
+                    MESSAGE = {'type': 'text', 'text': f'Name {stat.item.name}.\n Due Date {formatted_date_time}'}
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': f'Bearer {ACCESS_TOKEN}'
+                    }
+                    data = {
+                        'to': USER_ID,
+                        'messages': [MESSAGE]
+                    }
+                    requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
+                
+                return HttpResponse(json.dumps({'message': 'Success'}), content_type='application/json') 
+            
+            except ValueError as e:
+                return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
+            
+    except Exception as e:
+        print("{0} : {1}".format(sys.exc_info()[-1].tb_lineno,str(e)))
+        return HttpResponse(json.dumps({'message': 'Get some errors'},default=str), content_type="application/json")
+
+def profile(request):
+    if request.method == 'POST':
+        userId = request.POST.get('userId')
+        student = Student.objects.get(userId=userId)
+        return render(request, 'profile.html', {'student': student})
+
+def edit_profile(request, id):
+    student = Student.objects.get(id=id)
+    if request.method == 'POST':
+        student.fname = request.POST['fname']
+        student.lname = request.POST['lname']
+        student.email = request.POST['email']
+        student.sid = request.POST['sid']
+        student.tel = request.POST['tel']
+        student.save()
+        return redirect('edit_profile', id=student.id)
+    else:
+        return render(request, 'profile.html', {'student': student})
