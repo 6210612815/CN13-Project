@@ -1,22 +1,37 @@
 {% extends "layout.html" %}
 {% load static %}
 
+{% block title %}<title>Service</title>{% endblock %}
+
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/abouts.css' %}">
-    <script src="{% static '/js/styles.js' %}"></script>
-    <script type="text/javascript" src="/static/js/styles.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/service.css' %}">
 {% endblock %}
 
 {% block body %}
-<div class="about-section">
-    <h1>How to use this website</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<div class="container">
+
+    <h1>Circulation Service</h1>
+
+    <div class="sub-contain">
+        <div class="redbar"></div>
+
+        <h2>Lending Service</h2>
+
+        <p>&#x2022; Can choose the borrowing period with 1 day, 7 days and 30 days. If wanting to renew, must bring it to check the condition first and then continue borrowing.<br><br>
+
+        &#x2022; If not returned on the specified date, will be fined for the date exceeding 5 baht per day.<br><br>
+    
+        &#x2022; If found to be damaged you will have to pay back</p>
+            
+        <div class="text">
+            
+        </div>
+            
+        
+    </div>
+
+
 </div>
 
-<div class="about-section">
-    <h1>Warning</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</div>
 {% endblock %}

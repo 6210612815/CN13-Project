@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}<title>My Favourites</title>{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/mybookings.css' %}">
+<script src="{% static '/js/styles.js' %}"></script>
+<script type="text/javascript" src="/static/js/styles.js"></script>
+{% endblock %}
+
+{% block body %}
+    <script>
+        liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
+            if (!liff.isLoggedIn()) {
+                liff.login();
+            }else{
+                liff.getProfile().then(profile => {
+                    document.getElementById("userId_booking").value = profile.userId;
+                    document.getElementById("userId_booking0").value = profile.userId;
+                    document.getElementById("userId_booking1").value = profile.userId;
+                    document.getElementById("userId_booking2").value = profile.userId;
+                    document.getElementById("userId_booking3").value = profile.userId;
+                    document.getElementById("userId_favorite").value = profile.userId;
+
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        }, err => console.error(err.code, error.message));
+    </script> 
+
+    <div class="container">
+        <h1>My Favourites</h1>
+        <div class="sub-contain">
+            <div class="side-menu close">
+                <ul class="sub-menu">
+                </ul>
+            </div>
+            
+            <div class ="list-container">
+                <div class="list">
+                    {% for f in favorite %}
+                        <a href="{% url 'detail' f.item.id %}">
+                            <img src="{% static f.item.pic %}">
+                            <div class="text">
+                                <p>{{ f.item.name }}</p>
+                            </div>
+                        </a>
+                    {% empty %}
+                        <p class="txt-small">No item found</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

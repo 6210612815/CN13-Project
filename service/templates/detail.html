@@ -3,7 +3,7 @@
 {% block title %}<title>{{ equipment.name }}</title>{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/detials.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/detial.css' %}">
     <script src="{% static '/js/styles.js' %}"></script>
     <script type="text/javascript" src="/static/js/styles.js"></script>
 {% endblock %}
@@ -15,7 +15,14 @@
                 liff.login();
             }else{
                 liff.getProfile().then(profile => {
-                    document.getElementById("userId_mybooking").value = profile.userId;
+                    document.getElementById("userId_booking1").value = profile.userId;
+                    document.getElementById("userId_booking2").value = profile.userId;
+                    document.getElementById("userId_booking3").value = profile.userId;
+                    document.getElementById("userId_profile").value = profile.userId;
+                    document.getElementById("userId_fav").value = profile.userId;
+                    document.getElementById("userId_favorite").value = profile.userId;
+                    document.getElementById("image").src = profile.pictureUrl;
+
                 }).catch((err) => {
                     console.log(err);
                 });
@@ -59,6 +66,12 @@
                 <p>Name: {{ equipment.name }}</p>
                 <p>Category: {{ equipment.name }}</p>
                 <p>Description: {{ equipment.desc }}</p>
+                <form method="post" style="float:left" action="{% url 'favorite' %}">
+                    {% csrf_token %}
+                    <input type="hidden" id="userId_fav" name="userId" value="">
+                    <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                    <button class="fav-btn" onclick="toggleFav(this)"type="submit">Favorite</button>
+                </form>
             </div>
         </div>
 
@@ -88,7 +101,7 @@
                     {% else %}
                         <div id="cross-icon">
                             <svg width="24" height="24">
-                                <circle cx="12" cy="12" r="10" fill="red" />
+                            <circle cx="12" cy="12" r="10" fill="red" />
                             <line x1="7" y1="7" x2="17" y2="17" stroke="white" stroke-width="2" />
                             <line x1="7" y1="17" x2="17" y2="7" stroke="white" stroke-width="2" />
                             </svg>
@@ -97,13 +110,32 @@
                 </div>
                 <div class="col col-4" data-label="Category">{{ equipment.category }}</div>
                 <!-- if not available sent statistic object an show due date -->
-                <div class="col col-5" data-label="Due Date">{{ statistic.due_datetime }}</div>
+                {% if equipment.available %}
+                    <div class="col col-5" data-label="Due Date">-</div>
+                {% else %}
+                    <div class="col col-5" data-label="Due Date">{{ statistic.due_datetime }}</div>
+                {% endif %}
                 <div class="col col-6" >
-                    <form method="post" action="{% url 'booking_item' %}">
+                    <form method="post" style="float:left" action="{% url 'booking_item' %}">
                         {% csrf_token %}
-                        <input type="hidden" id="userId_mybooking" name="userId" value="">
+                        <input type="hidden" id="userId_booking1" name="userId" value="">
                         <input type="hidden" name="item_id" value="{{ equipment.id }}">
-                        <button type="submit">Booking</button>
+                        <input type="hidden" name="date" value="1">
+                        <button type="submit">1 Day</button>
+                    </form>
+                    <form method="post" style="float:left" action="{% url 'booking_item' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="userId_booking2" name="userId" value="">
+                        <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                        <input type="hidden" name="date" value="7">
+                        <button type="submit">1 Week</button>
+                    </form>
+                    <form method="post" style="float:left" action="{% url 'booking_item' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="userId_booking3" name="userId" value="">
+                        <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                        <input type="hidden" name="date" value="30">
+                        <button type="submit">1 Month</button>
                     </form>
                 </div>
             </li>

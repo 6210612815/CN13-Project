@@ -1,0 +1,35 @@
+.container {
+    margin: 20px;
+    padding: 40px;
+}
+
+.sub-contain {
+    background-color: #b31e1e;
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    /* padding: 20px 40px; */
+    margin-top: 20px;
+}
+
+/* .sub-contain .redbar {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    background-color: #b31e1e;
+    top: 0;
+    left: 0;
+} */
+
+h2 {
+    padding: 16px 40px;
+    color: white;
+}
+
+p {
+    /* margin-top: 20px; */
+    font-size: 18px;
+    background-color: white;
+    padding: 20px 40px;
+    border-bottom: 10px;
+}

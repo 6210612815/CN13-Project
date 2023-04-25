@@ -1,39 +1,67 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}<title>Profile</title>{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static '/css/profile.css' %}">
+{% endblock %}
+
 <html>
-    <body>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
-        <script>
-            liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
-                if (!liff.isLoggedIn()) {
-                    liff.login();
-                }else{
-                    liff.getProfile().then(profile => {
-                        console.log(profile.pictureUrl);
-                        document.getElementById("image").src = profile.pictureUrl;
-                        document.getElementById("displayName").value = profile.displayName;
-                        document.getElementById("userId_booking").value = profile.userId;
-                        document.getElementById("userId_profile").value = profile.userId;
-                    }).catch((err) => {
-                        console.log(err);
-                    });
-                }
-            }, err => console.error(err.code, error.message));
-        </script>
-    </body>
-    
-    <img id="image" src="" width="100" height="100">
-    <form method="POST" action="{% url 'edit_profile' student.id %}">
-        {% csrf_token %}
-        <label for="fname">First Name:</label>
-        <input type="text" name="fname" value="{{ student.fname }}"><br>
-        <label for="lname">Last Name:</label>
-        <input type="text" name="lname" value="{{ student.lname }}"><br>
-        <label for="email">Email:</label>
-        <input type="text" name="email" value="{{ student.email }}"><br>
-        <label for="sid">Student ID:</label>
-        <input type="text" name="sid" value="{{ student.sid }}"><br>
-        <label for="tel">Telephone:</label>
-        <input type="text" name="tel" value="{{ student.tel }}"><br>
-        <input type="submit" value="Save">
-    </form>
+    {% block body %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.9.0/sdk.js"></script>
+    <script>
+        liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
+            if (!liff.isLoggedIn()) {
+                liff.login();
+            }else{
+                liff.getProfile().then(profile => {
+                    document.getElementById("image").src = profile.pictureUrl;
+                    document.getElementById("image_profile").src = profile.pictureUrl;
+                    document.getElementById("displayName").value = profile.displayName;
+                    document.getElementById("userId_booking").value = profile.userId;
+                    document.getElementById("userId_profile").value = profile.userId;
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        }, err => console.error(err.code, error.message));
+    </script>
+    <div class="container">
+        <h1>Your Information</h1>
+        <div class="line"></div>
+        <div class="sub-contain">
+            <div class="pic">
+                <img id="image_profile" src="">
+            </div>  
+            <form method="POST" action="{% url 'edit_profile' student.id %}">
+                {% csrf_token %}
+                <div class="text">
+                    <div class="form-group">
+                        <label for="fname" class="labels">First Name</label>
+                        <input type="text" class="form-control" name="fname" value="{{ student.fname }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="lname" class="labels">Last Name</label>
+                        <input type="text" class="form-control" name="lname" value="{{ student.lname }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="labels">Email</label>
+                        <input type="text" class="form-control" name="email" value="{{ student.email }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="sid" class="labels">Student ID</label>
+                        <input type="text" class="form-control" name="sid" value="{{ student.sid }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="tel" class="labels">Phone Number</label>
+                        <input type="text" class="form-control" name="tel" value="{{ student.tel }}">
+                    </div>
+                    <button type="submit" class="btn">Save</button>
+                </div>
+            </form>
+        </div>  
+    </div>
+    {% endblock %}
 </html>

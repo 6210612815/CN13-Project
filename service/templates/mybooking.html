@@ -19,6 +19,9 @@
                     document.getElementById("userId_booking0").value = profile.userId;
                     document.getElementById("userId_booking1").value = profile.userId;
                     document.getElementById("userId_booking2").value = profile.userId;
+                    document.getElementById("userId_booking3").value = profile.userId;
+                    document.getElementById("userId_favorite").value = profile.userId;
+
                 }).catch((err) => {
                     console.log(err);
                 });
@@ -52,7 +55,14 @@
                             <input type="hidden" id="userId_booking2" name="userId" value="">
                             <input type="submit" value="Returned">
                         </form>
-                    </li>  
+                    </li>
+                    <li>
+                        <form method="post" action="{% url 'my_booking_overdue' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking3" name="userId" value="">
+                            <input type="submit" value="Overdue">
+                        </form>
+                    </li> 
                 </ul>
             </div>
 
@@ -63,12 +73,12 @@
                         <div class="text">
                             <p>{{ s.item }}</p>
                             {% if s.return_datetime is None %}
-                                <div class="status-line"><p>Status: <div class="btn-borr">Booking</div></p></div>
-                                <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
-                                <p class="txt-small">Due date: {{ s.due_datetime }}</p>
-                                <p class="txt-small">Return date: -</p>
-                    
-                                {% if s.due_datetime < now %}
+                                {% if s.due_datetime > now %}
+                                    <div class="status-line"><p>Status: <div class="btn-borr">Booking</div></p></div>
+                                    <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
+                                    <p class="txt-small">Due date: {{ s.due_datetime }}</p>
+                                    <p class="txt-small">Return date: -</p> 
+                                {% else %}  
                                     <div class="status-line"><p>Status: <div class="btn-over">Overdue</div></p></div>
                                     <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
                                     <p class="txt-small">Due date: {{ s.due_datetime }}</p>

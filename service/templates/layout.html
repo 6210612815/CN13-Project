@@ -7,7 +7,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
-      <link rel="stylesheet" type="text/css" href="{% static '/css/nav.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static '/css/layout.css' %}">
   </head>
 
   <body>
@@ -19,10 +19,17 @@
                 liff.login();
             }else{
                 liff.getProfile().then(profile => {
-                    document.getElementById("image").src = profile.pictureUrl;
-                    document.getElementById("displayName").value = profile.displayName;
-                    document.getElementById("userId_booking").value = profile.userId;
-                    document.getElementById("userId_profile").value = profile.userId;
+                  document.getElementById("userId_booking").value = profile.userId;
+                  document.getElementById("userId_booking0").value = profile.userId;
+                  document.getElementById("userId_booking1").value = profile.userId;
+                  document.getElementById("userId_booking2").value = profile.userId;
+                  document.getElementById("userId_booking3").value = profile.userId;
+                  document.getElementById("userId_profile").value = profile.userId;
+                  document.getElementById("userId_fav").value = profile.userId;
+                  document.getElementById("userId_favorite").value = profile.userId;
+                  document.getElementById("image").src = profile.pictureUrl;
+                  document.getElementById("image_profile").src = profile.pictureUrl;
+                  document.getElementById("displayName").value = profile.displayName;
                 }).catch((err) => {
                     console.log(err);
                 });
@@ -54,6 +61,11 @@
                   {% csrf_token %}
                   <input type="hidden" id="userId_booking" name="userId" value="">
                   <input type="submit" value="My Booking">
+                </form>
+                <form method="post" action="{% url 'myfavorite' %}">
+                  {% csrf_token %}
+                  <input type="hidden" id="userId_favorite" name="userId" value="">
+                  <input type="submit" value="My Favourites">
                 </form>
               </div>
             </div>

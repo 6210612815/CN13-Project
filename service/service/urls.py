@@ -31,8 +31,10 @@ urlpatterns = [
     path('homepage/', views.homepage, name='homepage'),
     path('detail/<int:pk>/', views.detail, name='detail'),
     path('mybooking/', views.mybooking, name='mybooking'),
+    path('myfavorite/', views.myfavorite, name='myfavorite'),
     path('sent_list/', views.sent_list, name='sent_list'),
     path('booking/', views.booking_item, name='booking_item'),
+    path('favorite/', views.favorite, name='favorite'),
     path('profile/<int:id>/', views.edit_profile, name='edit_profile'),
     path('homepage/name/', views.homepage_sort_name, name='homepage_sort_name'),
     path('homepage/new/', views.homepage_sort_datetime, name='homepage_sort_datetime'),
@@ -41,5 +43,6 @@ urlpatterns = [
     path('sent_list_to_chat/', views.sent_list_to_chat, name='sent_list_to_chat'),
     path('mybooking/returned/', views.my_booking_return, name='my_booking_return'),
     path('mybooking/booking/', views.my_booking_not_return, name='my_booking_not_return'),   
+    path('mybooking/overdue/', views.my_booking_overdue, name='my_booking_overdue'),   
 ]
 

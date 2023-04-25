@@ -3,6 +3,11 @@
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans|Mountains+of+Christmas&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap');
 
+:root {
+  --main-red: #b31e1e;
+  --main-black: #494949;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -193,4 +198,5 @@
 	}
 
 }
+
 

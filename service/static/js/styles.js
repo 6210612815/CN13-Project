@@ -6,3 +6,7 @@ $('.vertical-menu a').click(function(){
 $('button').on('click', function() {
     $('body').css('background', '#ccc');
 });
+
+function toggleFav(btn) {
+    btn.classList.toggle('active');
+  }

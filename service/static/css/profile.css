@@ -1,0 +1,93 @@
+.container {
+    margin: 20px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+h1 {
+    position: absolute;
+    z-index: 1;
+    padding: 40px 60px;
+    color: white;
+}
+
+.line {
+    width: 100%;
+    height: 90px;
+    background-color: var(--main-red);
+    position: relative;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.sub-contain {
+    display: flex;
+    flex-direction: row;
+    gap: 180px;
+    justify-content: center;
+    margin: 60px;
+}
+
+.container .sub-contain .pic img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 500px;
+}
+
+.container .sub-contain .text {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+}
+
+.container .sub-contain .text .form-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+}
+
+.container .sub-contain .text .form-group input {
+    width: auto;
+    height: 40px;
+    left: 695px;
+    top: 346px;
+    padding: 10px;
+    font-size: 14px;
+
+    background: white;
+    border-radius: 24px;
+    border: 0.5px solid #acacac;
+    box-shadow: inset 0 0 3px #c2c2c2;
+}
+
+.container .sub-contain .text .form-group .labels {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--main-black);
+    width: auto;
+}
+
+.container .sub-contain .text .btn {
+    width: 80px;
+    height: 40px;
+    align-self: flex-end;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 0.5px solid #007ef3;
+    background-color: #0077ff;
+    color: white;
+    margin: 20px;
+    cursor: pointer;
+}
+
+@media all and (max-width: 760px) {
+    .sub-contain {
+        display: flex;
+        flex-direction: column;
+    }
+	.container .sub-contain .text {
+        width: auto;
+    }
+}

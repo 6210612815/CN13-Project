@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.urls import reverse
 from rest_framework import status
 from student.models import Student, StudentForm
 from equipment.models import Equipment
 from statistic.models import Statistic
+from favorites.models import Favorite
 from datetime import datetime, timedelta
+from django.utils import timezone
 from linebot import LineBotApi
-
 from linebot.models import TextSendMessage
 import requests, json, sys
 
@@ -65,7 +66,7 @@ def homepage_sort_datetime(request):
     return render(request, 'homepage.html', {'equipments': equipments})
 
 def homepage_sort_picked(request):
-    equipments = Equipment.objects.all().order_by('picked')
+    equipments = Equipment.objects.all().order_by('-picked')
     for item in equipments:
         item.url = reverse('detail', args=[item.pk])
     return render(request, 'homepage.html', {'equipments': equipments})
@@ -101,6 +102,8 @@ def booking_item(request):
     if request.method == 'POST':
         item_id = request.POST.get('item_id')
         userId = request.POST.get('userId')
+        d = request.POST.get('date')
+        date = int(d)
         person = Student.objects.get(userId=userId)
         item = Equipment.objects.get(id=item_id)
         if item.available == True:
@@ -111,7 +114,7 @@ def booking_item(request):
             item.save()
 
             #Add to Statistic Models
-            statistic = Statistic(owner=person, item=item, return_datetime=None)
+            statistic = Statistic(owner=person, item=item, due_datetime=timezone.now()+timedelta(days=date), return_datetime=None)
             statistic.save()
 
             #Sent Notification to chat "Booking Success"
@@ -140,7 +143,23 @@ def mybooking(request):
         person = Student.objects.get(userId=userId)
         try:
             statistic = Statistic.objects.filter(owner=person)
-            return render(request, 'mybooking.html', {'statistic': statistic})
+            now = timezone.now()
+            for i in statistic:
+                print(i.due_datetime)
+            return render(request, 'mybooking.html', {'statistic': statistic,
+                                                      'now': now})
+        except ValueError as e:
+            return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
+    return render(request, 'homepage.html')
+
+def myfavorite(request):
+    if request.method == 'POST':
+        userId = request.POST.get('userId')
+        student = Student.objects.get(userId=userId)
+        
+        try:
+            favorite = Favorite.objects.filter(user=student)
+            return render(request, 'myfavorite.html', {'favorite': favorite})
         except ValueError as e:
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
     return render(request, 'homepage.html')
@@ -150,7 +169,7 @@ def my_booking_not_return(request):
         userId = request.POST.get('userId')
         person = Student.objects.get(userId=userId)
         try:
-            statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True)
+            statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True).filter(due_datetime__gt=timezone.now())
             return render(request, 'mybooking.html', {'statistic': statistic})
         except ValueError as e:
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
@@ -166,6 +185,17 @@ def my_booking_return(request):
         except ValueError as e:
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
     return render(request, 'homepage.html')
+
+def my_booking_overdue(request):
+    if request.method == 'POST':
+        userId = request.POST.get('userId')
+        person = Student.objects.get(userId=userId)
+        try:
+            statistic = Statistic.objects.filter(owner=person).filter(due_datetime__lt=timezone.now())
+            return render(request, 'mybooking.html', {'statistic': statistic})
+        except ValueError as e:
+            return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
+    return render(request, 'homepage.html')
     
 def history(request):
     return render(request, 'history.html')   
@@ -173,11 +203,10 @@ def history(request):
 def search(request):
     query = request.GET.get('q')
     if query:
-        items = Equipment.objects.filter(Q(name__icontains=query) | Q(category__icontains=query))
+        item = Equipment.objects.filter(Q(name__icontains=query) | Q(category__icontains=query))
     else:
-        items = []
-    context = {'items': items, 'query': query}
-    return render(request, 'homepage.html', context)
+        item = []
+    return render(request, 'homepage.html', {'equipments': item })
 
 def sent_list(request):
     return render(request, 'sent_list.html')
@@ -258,3 +287,21 @@ def edit_profile(request, id):
         return redirect('edit_profile', id=student.id)
     else:
         return render(request, 'profile.html', {'student': student})
+
+def favorite(request):
+    if request.method == 'POST':
+        userId = request.POST.get('userId')
+        item = request.POST.get('item_id')
+        print(userId)
+        student = Student.objects.get(userId=userId)
+        equipment = Equipment.objects.get(id=item)
+        try:
+            favorite = Favorite.objects.get(user=student, item=equipment)
+            favorite.delete()
+            message = 'removed'
+        except Favorite.DoesNotExist:
+            favorite = Favorite.objects.create(user=student,  item=equipment)
+            message = 'added'
+        return render(request, 'detail.html', {'equipment': equipment,
+                                               'favorite': favorite})
+    
