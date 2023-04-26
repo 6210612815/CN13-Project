@@ -4,7 +4,7 @@
 {% block title %}<title>Profile</title>{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/profile.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/myprofile.css' %}">
 {% endblock %}
 
 <html>
@@ -22,6 +22,7 @@
                     document.getElementById("displayName").value = profile.displayName;
                     document.getElementById("userId_booking").value = profile.userId;
                     document.getElementById("userId_profile").value = profile.userId;
+                    document.getElementById("image").src = profile.pictureUrl;
                 }).catch((err) => {
                     console.log(err);
                 });

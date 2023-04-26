@@ -3,7 +3,7 @@
 {% block title %}<title>Homepage</title>{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
     <script src="{% static '/js/styles.js' %}"></script>
     <script type="text/javascript" src="/static/js/styles.js"></script>
 {% endblock %}
@@ -91,16 +91,16 @@
           responsiveSlider();  
           }
     </script>
-    <div class="cont"></div>
+    
     <div class="container">
         <div class="vertical-menu">
-            <ul>
-                <li><a href="{% url 'homepage' %}">All items</a></li>
-                <li><p>Sort By</p></li>
-                <li><a href="{% url 'homepage_sort_picked' %}">Popular</a></li>
-                <li><a href="{% url 'homepage_sort_datetime' %}">New</a></li>
-                <li><a href="{% url 'homepage_sort_name' %}">Name</a></li>
-            </ul>
+            
+          <a class="element" href="{% url 'homepage' %}"><img src="{% static '/images/shopping-bag.png' %}" width="30px", height="30px"><span>All items</span></a>
+          <p>Sort By</p></li>
+          <a class="element" href="{% url 'homepage_sort_picked' %}"><img src="{% static '/images/fire.png' %}" width="30px", height="30px"><span>Popular</span></a>
+          <a class="element" href="{% url 'homepage_sort_datetime' %}"><img src="{% static '/images/new.png' %}" width="30px", height="30px"><span>New</span></a>
+          <a class="element" href="{% url 'homepage_sort_name' %}"><img src="{% static '/images/mat.png' %}" width="30px", height="30px"><span>Name</span></a>
+            
         </div>
             
         <div class="container-product">

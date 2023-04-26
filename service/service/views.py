@@ -137,6 +137,18 @@ def booking_item(request):
             messages.success(request, 'Item booking fail.')
         return redirect('detail', pk=item_id)
 
+def myfavorite(request):
+    if request.method == 'POST':
+        userId = request.POST.get('userId')
+        student = Student.objects.get(userId=userId)
+        
+        try:
+            favorite = Favorite.objects.filter(user=student)
+            return render(request, 'myfavorite.html', {'favorite': favorite})
+        except ValueError as e:
+            return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
+    return render(request, 'homepage.html')
+
 def mybooking(request):
     if request.method == 'POST':
         userId = request.POST.get('userId')
@@ -152,25 +164,14 @@ def mybooking(request):
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
     return render(request, 'homepage.html')
 
-def myfavorite(request):
-    if request.method == 'POST':
-        userId = request.POST.get('userId')
-        student = Student.objects.get(userId=userId)
-        
-        try:
-            favorite = Favorite.objects.filter(user=student)
-            return render(request, 'myfavorite.html', {'favorite': favorite})
-        except ValueError as e:
-            return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
-    return render(request, 'homepage.html')
-
 def my_booking_not_return(request):
     if request.method == 'POST':
         userId = request.POST.get('userId')
         person = Student.objects.get(userId=userId)
         try:
             statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True).filter(due_datetime__gt=timezone.now())
-            return render(request, 'mybooking.html', {'statistic': statistic})
+            return render(request, 'mybooking.html', {'statistic': statistic,
+                                                      'now': timezone.now()})
         except ValueError as e:
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
     return render(request, 'homepage.html')
@@ -181,7 +182,8 @@ def my_booking_return(request):
         person = Student.objects.get(userId=userId)
         try:
             statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=False)
-            return render(request, 'mybooking.html', {'statistic': statistic})
+            return render(request, 'mybooking.html', {'statistic': statistic,
+                                                      'now': timezone.now()})
         except ValueError as e:
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
     return render(request, 'homepage.html')
@@ -191,8 +193,9 @@ def my_booking_overdue(request):
         userId = request.POST.get('userId')
         person = Student.objects.get(userId=userId)
         try:
-            statistic = Statistic.objects.filter(owner=person).filter(due_datetime__lt=timezone.now())
-            return render(request, 'mybooking.html', {'statistic': statistic})
+            statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True).filter(due_datetime__lt=timezone.now())
+            return render(request, 'mybooking.html', {'statistic': statistic,
+                                                      'now': timezone.now()})
         except ValueError as e:
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
     return render(request, 'homepage.html')

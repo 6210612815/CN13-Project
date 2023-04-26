@@ -8,7 +8,22 @@
 {% endblock %}
 
 {% block body %}
-
+<script>
+    liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
+        if (!liff.isLoggedIn()) {
+            liff.login();
+        }else{
+            liff.getProfile().then(profile => {
+                document.getElementById("userId_booking").value = profile.userId;
+                document.getElementById("userId_profile").value = profile.userId;
+                document.getElementById("userId_favorite").value = profile.userId;
+                document.getElementById("image").src = profile.pictureUrl;
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+    }, err => console.error(err.code, error.message));
+</script>
 <div class="container">
 
     <h1>Circulation Service</h1>

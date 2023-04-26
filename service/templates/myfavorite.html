@@ -3,7 +3,7 @@
 {% block title %}<title>My Favourites</title>{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/mybookings.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/mybooking.css' %}">
 <script src="{% static '/js/styles.js' %}"></script>
 <script type="text/javascript" src="/static/js/styles.js"></script>
 {% endblock %}
@@ -21,6 +21,7 @@
                     document.getElementById("userId_booking2").value = profile.userId;
                     document.getElementById("userId_booking3").value = profile.userId;
                     document.getElementById("userId_favorite").value = profile.userId;
+                    document.getElementById("image").src = profile.pictureUrl;
 
                 }).catch((err) => {
                     console.log(err);

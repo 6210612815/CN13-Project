@@ -7,7 +7,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
-      <link rel="stylesheet" type="text/css" href="{% static '/css/layout.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static '/css/layouts.css' %}">
   </head>
 
   <body>
@@ -40,12 +40,20 @@
       <div class="top_nav">
           <div class="left">
             <a href="{% url 'homepage' %}"><div class="logo"><p><span>LibraryOf</span>Things</p></div></a>
-            <div class="search_bar">
+            
+            <div class="search__container">
+              <form action="{% url 'search' %}" method="get">
+                <input class="search__input" name="q" type="text" placeholder="Search">
+                {% comment %} <button type="submit"></button> {% endcomment %}
+              </form>
+            </div>
+
+            <!-- <div class="search_bar">
                 <form action="{% url 'search' %}" method="get">
                   <input type="text" name="q" placeholder="Search...">
                   <button type="submit">Search</button>
                 </form>
-            </div>
+            </div> -->
         </div> 
         <div class="right">
           <ul>
@@ -91,6 +99,13 @@
         </ul>
       </div>
     </div>
+
+    <div class="search__container_sec">
+      <form action="#" method="get">
+        <input class="search__input" type="text" placeholder="Search">
+      </form>
+    </div>
+    
     {% block body %}
     {% endblock %}
   </body>

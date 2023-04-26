@@ -3,7 +3,7 @@
 {% block title %}<title>My Booking</title>{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static '/css/mybookings.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/mybooking.css' %}">
 <script src="{% static '/js/styles.js' %}"></script>
 <script type="text/javascript" src="/static/js/styles.js"></script>
 {% endblock %}
@@ -21,6 +21,7 @@
                     document.getElementById("userId_booking2").value = profile.userId;
                     document.getElementById("userId_booking3").value = profile.userId;
                     document.getElementById("userId_favorite").value = profile.userId;
+                    document.getElementById("image").src = profile.pictureUrl;
 
                 }).catch((err) => {
                     console.log(err);
@@ -32,37 +33,42 @@
     <div class="container">
         <h1>My Booking</h1>
         <div class="sub-contain">
-            <div class="side-menu close">
-                <ul class="sub-menu">
-                    <li><p>Sort By</p></li>
-                    <li>
+            <div class="vertical-menu">
+                
+                    <p>Sort by:</p>
+                    
+                    <div class="element">
+                        <img src="{% static '/images/select-all.png' %}" width="30px", height="30px">
                         <form method="post" action="{% url 'mybooking' %}">
                             {% csrf_token %}
                             <input type="hidden" id="userId_booking0" name="userId" value="">
                             <input type="submit" value="All">
                         </form>
-                    </li>  
-                    <li>
+                    </div>
+                    <div class="element">
+                        <img src="{% static '/images/booking.png' %}" width="30px", height="30px">
                         <form method="post" action="{% url 'my_booking_not_return' %}">
                             {% csrf_token %}
                             <input type="hidden" id="userId_booking1" name="userId" value="">
                             <input type="submit" value="Booking">
                         </form>
-                    </li>    
-                    <li>
+                    </div>
+                    <div class="element">
+                        <img src="{% static '/images/return-box.png' %}" width="30px", height="30px">
                         <form method="post" action="{% url 'my_booking_return' %}">
                             {% csrf_token %}
                             <input type="hidden" id="userId_booking2" name="userId" value="">
                             <input type="submit" value="Returned">
                         </form>
-                    </li>
-                    <li>
+                    </div>
+                    <div class="element">
+                        <img src="{% static '/images/warning.png' %}" width="30px", height="30px">
                         <form method="post" action="{% url 'my_booking_overdue' %}">
                             {% csrf_token %}
                             <input type="hidden" id="userId_booking3" name="userId" value="">
                             <input type="submit" value="Overdue">
                         </form>
-                    </li> 
+                    </div>
                 </ul>
             </div>
 
@@ -74,18 +80,18 @@
                             <p>{{ s.item }}</p>
                             {% if s.return_datetime is None %}
                                 {% if s.due_datetime > now %}
-                                    <div class="status-line"><p>Status: <div class="btn-borr">Booking</div></p></div>
+                                    <div class="status-line">Status: <div class="btn-borr">Booking</div></div>
                                     <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
                                     <p class="txt-small">Due date: {{ s.due_datetime }}</p>
                                     <p class="txt-small">Return date: -</p> 
                                 {% else %}  
-                                    <div class="status-line"><p>Status: <div class="btn-over">Overdue</div></p></div>
+                                    <div class="status-line">Status: <div class="btn-over">Overdue</div></div>
                                     <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
                                     <p class="txt-small">Due date: {{ s.due_datetime }}</p>
                                     <p class="txt-small">Return date: -</p>
                                 {% endif %} 
                             {% else %}
-                                <div class="status-line"><p>Status: <div class="btn-return">Returned</div></p></div>
+                                <div class="status-line">Status: <div class="btn-return">Returned</div></div>
                                 <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
                                 <p class="txt-small">Due date: {{ s.due_datetime }}</p>
                                 <p class="txt-small">Return date: {{ s.return_datetime }}</p>

@@ -86,8 +86,12 @@ h1 {
     .sub-contain {
         display: flex;
         flex-direction: column;
+        gap: 20px;
     }
 	.container .sub-contain .text {
         width: auto;
+    }
+    .container .sub-contain .pic {
+        align-self: center;
     }
 }

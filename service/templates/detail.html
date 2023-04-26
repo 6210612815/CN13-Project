@@ -3,7 +3,7 @@
 {% block title %}<title>{{ equipment.name }}</title>{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/detial.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/detials.css' %}">
     <script src="{% static '/js/styles.js' %}"></script>
     <script type="text/javascript" src="/static/js/styles.js"></script>
 {% endblock %}
@@ -84,7 +84,7 @@
                 <div class="col col-3">Availability</div>
                 <div class="col col-4">Category</div>
                 <div class="col col-5">Due Date</div>
-                <div class="col col-5">Operation</div>
+                <div class="col col-6">Booking Duration</div>
             </li>
 
             <li class="table-row">
@@ -112,32 +112,55 @@
                 <!-- if not available sent statistic object an show due date -->
                 {% if equipment.available %}
                     <div class="col col-5" data-label="Due Date">-</div>
+                    <div class="col col-6" >
+                        <form method="post" style="float:left" action="{% url 'booking_item' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking1" name="userId" value="">
+                            <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                            <input type="hidden" name="date" value="1">
+                            <button type="submit">1 Day</button>
+                        </form>
+                        <form method="post" style="float:left" action="{% url 'booking_item' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking2" name="userId" value="">
+                            <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                            <input type="hidden" name="date" value="7">
+                            <button type="submit">1 Week</button>
+                        </form>
+                        <form method="post" style="float:left" action="{% url 'booking_item' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking3" name="userId" value="">
+                            <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                            <input type="hidden" name="date" value="30">
+                            <button type="submit">1 Month</button>
+                        </form>
+                    </div>
                 {% else %}
                     <div class="col col-5" data-label="Due Date">{{ statistic.due_datetime }}</div>
+                    <div class="col col-6 cant">
+                        <form method="post" style="float:left" action="{% url 'booking_item' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking1" name="userId" value="">
+                            <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                            <input type="hidden" name="date" value="1">
+                            <button type="submit">1 Day</button>
+                        </form>
+                        <form method="post" style="float:left" action="{% url 'booking_item' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking2" name="userId" value="">
+                            <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                            <input type="hidden" name="date" value="7">
+                            <button type="submit">1 Week</button>
+                        </form>
+                        <form method="post" style="float:left" action="{% url 'booking_item' %}">
+                            {% csrf_token %}
+                            <input type="hidden" id="userId_booking3" name="userId" value="">
+                            <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                            <input type="hidden" name="date" value="30">
+                            <button type="submit">1 Month</button>
+                        </form>
+                    </div>
                 {% endif %}
-                <div class="col col-6" >
-                    <form method="post" style="float:left" action="{% url 'booking_item' %}">
-                        {% csrf_token %}
-                        <input type="hidden" id="userId_booking1" name="userId" value="">
-                        <input type="hidden" name="item_id" value="{{ equipment.id }}">
-                        <input type="hidden" name="date" value="1">
-                        <button type="submit">1 Day</button>
-                    </form>
-                    <form method="post" style="float:left" action="{% url 'booking_item' %}">
-                        {% csrf_token %}
-                        <input type="hidden" id="userId_booking2" name="userId" value="">
-                        <input type="hidden" name="item_id" value="{{ equipment.id }}">
-                        <input type="hidden" name="date" value="7">
-                        <button type="submit">1 Week</button>
-                    </form>
-                    <form method="post" style="float:left" action="{% url 'booking_item' %}">
-                        {% csrf_token %}
-                        <input type="hidden" id="userId_booking3" name="userId" value="">
-                        <input type="hidden" name="item_id" value="{{ equipment.id }}">
-                        <input type="hidden" name="date" value="30">
-                        <button type="submit">1 Month</button>
-                    </form>
-                </div>
             </li>
             </ul>
         </div>
