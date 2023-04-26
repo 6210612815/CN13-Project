@@ -26,7 +26,6 @@ urlpatterns = [
     path('lineapi/', views.lineapi, name='lineapi'),
     path('profile/', views.profile, name='profile'),
     path('service/', views.service, name='service'),
-    path('history/', views.history, name='history'),
     path('register/', views.register, name='register'),
     path('homepage/', views.homepage, name='homepage'),
     path('detail/<int:pk>/', views.detail, name='detail'),

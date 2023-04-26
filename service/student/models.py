@@ -24,4 +24,3 @@ class StudentForm(forms.ModelForm):
             'sid' : 'Student ID',
             'tel' : 'Telephone',
         }
-

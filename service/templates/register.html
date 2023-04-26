@@ -1,5 +1,4 @@
 {% load static %}
-
 <html>
     <head>
         <link rel="stylesheet" href="{% static 'css/form.css' %}">
@@ -16,7 +15,6 @@
                     liff.login();
                 }else{
                     liff.getProfile().then(profile => {
-                        console.log(`User ID: ${profile.userId}`);
                         document.getElementById("userId").value = profile.userId;
                     }).catch((err) => {
                         console.log(err);

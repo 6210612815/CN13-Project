@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+from django.utils import timezone
 from django.db.models import Q
 from django.urls import reverse
 from rest_framework import status
@@ -8,10 +9,7 @@ from student.models import Student, StudentForm
 from equipment.models import Equipment
 from statistic.models import Statistic
 from favorites.models import Favorite
-from datetime import datetime, timedelta
-from django.utils import timezone
-from linebot import LineBotApi
-from linebot.models import TextSendMessage
+from datetime import timedelta
 import requests, json, sys
 
 def lineapi(request):
@@ -48,6 +46,9 @@ def service(request):
 def about(request):
     return render(request, 'about.html')
 
+def sent_list(request):
+    return render(request, 'sent_list.html')
+
 def homepage(request):
     equipments = Equipment.objects.all()
     for item in equipments:
@@ -80,9 +81,7 @@ def homepage_sort_name(request):
 def register(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
-        print('post')
         if form.is_valid():
-            print("saved")
             form.save()
             return render(request, 'homepage.html')
     else:
@@ -107,17 +106,14 @@ def booking_item(request):
         person = Student.objects.get(userId=userId)
         item = Equipment.objects.get(id=item_id)
         if item.available == True:
-            #Changing Equipment Models
             item.own = person
             item.available = False
             item.picked += 1
             item.save()
 
-            #Add to Statistic Models
             statistic = Statistic(owner=person, item=item, due_datetime=timezone.now()+timedelta(days=date), return_datetime=None)
             statistic.save()
 
-            #Sent Notification to chat "Booking Success"
             ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
             USER_ID = userId
             date_time = statistic.due_datetime
@@ -155,11 +151,8 @@ def mybooking(request):
         person = Student.objects.get(userId=userId)
         try:
             statistic = Statistic.objects.filter(owner=person)
-            now = timezone.now()
-            for i in statistic:
-                print(i.due_datetime)
             return render(request, 'mybooking.html', {'statistic': statistic,
-                                                      'now': now})
+                                                      'now': timezone.now()})
         except ValueError as e:
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
     return render(request, 'homepage.html')
@@ -200,9 +193,6 @@ def my_booking_overdue(request):
             return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
     return render(request, 'homepage.html')
     
-def history(request):
-    return render(request, 'history.html')   
-
 def search(request):
     query = request.GET.get('q')
     if query:
@@ -210,9 +200,6 @@ def search(request):
     else:
         item = []
     return render(request, 'homepage.html', {'equipments': item })
-
-def sent_list(request):
-    return render(request, 'sent_list.html')
 
 def sent_list_to_chat(request):
     try :
@@ -232,7 +219,7 @@ def sent_list_to_chat(request):
 
             try:
                 statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True)
-                #Sent Notification to chat "Header"
+                
                 ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
                 USER_ID = userId
                 MESSAGE = {'type': 'text', 'text': f'This is Your Booking List.'}
@@ -247,7 +234,7 @@ def sent_list_to_chat(request):
                 requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
 
                 for stat in statistic:
-                    #Sent Notification to chat "List"
+                    
                     ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
                     USER_ID = userId
                     date_time = stat.due_datetime
@@ -295,7 +282,6 @@ def favorite(request):
     if request.method == 'POST':
         userId = request.POST.get('userId')
         item = request.POST.get('item_id')
-        print(userId)
         student = Student.objects.get(userId=userId)
         equipment = Equipment.objects.get(id=item)
         try:
