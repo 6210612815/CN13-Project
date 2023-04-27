@@ -2,9 +2,7 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/abouts.css' %}">
-    <script src="{% static '/js/styles.js' %}"></script>
-    <script type="text/javascript" src="/static/js/styles.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/about.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -25,36 +23,43 @@
     }, err => console.error(err.code, error.message));
 </script>
 <div class="about-section">
-    <h1>About Us Page</h1>
+    <h1>About Us</h1><br>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 </div>
-  
-<h2 style="text-align:center">Our Team</h2>
+<h2 class="team-head" style="text-align:center">Our Team</h2>
   
 <div class="row">
     <div class="column">
         <div class="card">
-        <img src="{% static '/images/BAE953AE-443D-4B6A-93C1-7A81FA8292F0.jpg' %}" alt="Kotch" style="width:100%">
+        <img src="{% static '/images/kokot.jpg' %}" alt="Kotch">
         <div class="container">
             <h2>Kotchakorn Surin</h2>
-            <p class="title">Position:Frontend</p>
-            <p>Student ID:6210612674</p>
-            <p>Email:6210612674@student.tu.ac.th</p>
-            <p><button class="button"><a href="https://www.instagram.com/kokot_jz/">Contact</a></button></p>
+            <p class="title">Position: Frontend</p>
+            <p>Student ID: 6210612674</p>
+            <p>Email: 6210612674@student.tu.ac.th</p>
+            <div class="all-btn">
+                <p><a href="https://www.instagram.com/kokot_jz/"><button class="button1"></button></a></p>
+                <p><a href="#"></a><button class="button2"></button></a></p>
+                <p><a href="#"></a><button class="button3"></button></a></p>
+            </div>
         </div>
         </div>
     </div>
     
     <div class="column">
         <div class="card">
-        <img src="{% static '/images/BAE953AE-443D-4B6A-93C1-7A81FA8292F0.jpg' %}" alt="Bank" style="width:100%">
+        <img src="{% static '/images/bonkbank.jpg' %}" alt="Bank">
         <div class="container">
             <h2>Sittichok Ngampiphatchokchai</h2>
-            <p class="title">Position:Backend</p>
-            <p>Student ID:6210612815</p>
-            <p>Email:6210612815@student.tu.ac.th</p>
-            <p><button class="button"><a href="https://www.instagram.com/zardsada/">Contact</a></button></p>
+            <p class="title">Position: Backend</p>
+            <p>Student ID: 6210612815</p>
+            <p>Email: 6210612815@student.tu.ac.th</p>
+            <div class="all-btn">
+                <p><a href="https://www.instagram.com/zardsada/"><button class="button1"></button></a></p>
+                <p><a href="#"></a><button class="button2"></button></a></p>
+                <p><a href="#"></a><button class="button3"></button></a></p>
+            </div>
         </div>
         </div>
     </div>

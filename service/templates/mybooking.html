@@ -16,10 +16,7 @@
             }else{
                 liff.getProfile().then(profile => {
                     document.getElementById("userId_booking").value = profile.userId;
-                    document.getElementById("userId_booking0").value = profile.userId;
-                    document.getElementById("userId_booking1").value = profile.userId;
-                    document.getElementById("userId_booking2").value = profile.userId;
-                    document.getElementById("userId_booking3").value = profile.userId;
+                    document.getElementById("userId_profile").value = profile.userId;
                     document.getElementById("userId_favorite").value = profile.userId;
                     document.getElementById("image").src = profile.pictureUrl;
                 }).catch((err) => {
@@ -32,10 +29,7 @@
     <div class="container">
         <h1>My Booking</h1>
         <div class="sub-contain">
-            <div class="vertical-menu">
-                
-                    <p>Sort by:</p>
-                    
+            <div class="vertical-menu">        
                     <div class="element">
                         <img src="{% static '/images/select-all.png' %}" width="30px", height="30px">
                         <form method="post" action="{% url 'mybooking' %}">

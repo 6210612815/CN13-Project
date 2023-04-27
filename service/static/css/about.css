@@ -1,0 +1,103 @@
+/* Style the about section */
+.about-section {
+    padding: 50px;
+    text-align: center;
+    background-color: var(--main-red);
+    color: white;
+}
+
+/* Style the team member cards */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 2px 2px rgba(154,160,185,.05), 0 2px 10px rgba(166,173,201,.2);
+    width: 1000px;
+    height: auto;
+    margin: auto;
+}
+
+.column {
+    padding: 0 4px;
+    align-items: center;
+    width: auto;
+}
+
+.card {
+    padding: 30px;
+    width: auto;
+    height: auto;
+}
+
+.container {
+    line-height: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.container h2 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.title {
+    font-size: 16px;
+}
+
+.all-btn {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: auto;
+}
+
+.button1 {
+    cursor: pointer;
+    background-image: url(https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-512.png);
+    border: none;
+    height: 30px;
+    width: 30px;
+    background-size: contain;
+}
+
+.button2 {
+    cursor: pointer;
+    background-image: url(https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-512.png);
+    border: none;
+    height: 30px;
+    width: 30px;
+    background-size: contain;
+}
+
+.button3 {
+    cursor: pointer;
+    background-image: url(https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Twitter_colored_svg-512.png);
+    border: none;
+    height: 30px;
+    width: 30px;
+    background-size: contain;
+}
+
+.team-head {
+    margin: 30px;
+}
+
+.column img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    align-self: center;
+}
+
+@media all and (max-width: 767px) {
+    .row {
+        flex-direction: column;
+        width: auto;
+    }
+}

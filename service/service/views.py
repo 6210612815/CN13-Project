@@ -219,27 +219,11 @@ def sent_list_to_chat(request):
 
             try:
                 statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True)
-                
-                ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
-                USER_ID = userId
-                MESSAGE = {'type': 'text', 'text': f'This is Your Booking List.'}
-                headers = {
-                    'Content-Type': 'application/json',
-                    'Authorization': f'Bearer {ACCESS_TOKEN}'
-                }
-                data = {
-                    'to': USER_ID,
-                    'messages': [MESSAGE]
-                }
-                requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
-
-                for stat in statistic:
-                    
+                print(statistic)
+                if not statistic.exists():
                     ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
                     USER_ID = userId
-                    date_time = stat.due_datetime
-                    formatted_date_time = date_time.strftime("%d/%m/%Y")
-                    MESSAGE = {'type': 'text', 'text': f'Name {stat.item.name}.\n Due Date {formatted_date_time}'}
+                    MESSAGE = {'type': 'text', 'text': f'Your Booking List is Empty.'}
                     headers = {
                         'Content-Type': 'application/json',
                         'Authorization': f'Bearer {ACCESS_TOKEN}'
@@ -249,8 +233,39 @@ def sent_list_to_chat(request):
                         'messages': [MESSAGE]
                     }
                     requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
+                else:
                 
-                return HttpResponse(json.dumps({'message': 'Success'}), content_type='application/json') 
+                    ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
+                    USER_ID = userId
+                    MESSAGE = {'type': 'text', 'text': f'This is Your Booking List.'}
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': f'Bearer {ACCESS_TOKEN}'
+                    }
+                    data = {
+                        'to': USER_ID,
+                        'messages': [MESSAGE]
+                    }
+                    requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
+
+                    for stat in statistic:
+                        
+                        ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
+                        USER_ID = userId
+                        date_time = stat.due_datetime
+                        formatted_date_time = date_time.strftime("%d/%m/%Y")
+                        MESSAGE = {'type': 'text', 'text': f'Name {stat.item.name}.\n Due Date {formatted_date_time}'}
+                        headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': f'Bearer {ACCESS_TOKEN}'
+                        }
+                        data = {
+                            'to': USER_ID,
+                            'messages': [MESSAGE]
+                        }
+                        requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
+                    
+                    return HttpResponse(json.dumps({'message': 'Success'}), content_type='application/json') 
             
             except ValueError as e:
                 return HttpResponse('Error: Invalid value. Please enter an integer.', status=400)
