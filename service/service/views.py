@@ -61,7 +61,7 @@ def homepage_choice(request, choice):
         return render(request, 'homepage.html', {'equipments': equipments})
 
 def homepage_sort_datetime(request):
-    equipments = Equipment.objects.all().order_by('create_datetime')
+    equipments = Equipment.objects.all().order_by('-create_datetime')
     for item in equipments:
         item.url = reverse('detail', args=[item.pk])
     return render(request, 'homepage.html', {'equipments': equipments})

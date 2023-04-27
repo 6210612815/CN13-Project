@@ -39,18 +39,18 @@
             </div>
             
             <div class ="list-container">
-                <div class="list">
                     {% for f in favorite %}
-                        <a href="{% url 'detail' f.item.id %}">
-                            <img src="{% static f.item.pic %}">
-                            <div class="text">
-                                <p>{{ f.item.name }}</p>
-                            </div>
-                        </a>
+                        <div class="list">
+                            <a href="{% url 'detail' f.item.id %}">
+                                <img src="{% static f.item.pic %}">
+                                <div class="text">
+                                    <p>{{ f.item.name }}</p>
+                                </div>
+                            </a>
+                        </div>
                     {% empty %}
                         <p class="txt-small">No item found</p>
                     {% endfor %}
-                </div>
             </div>
         </div>
     </div>

@@ -66,34 +66,34 @@
             </div>
 
             <div class ="list-container">
-                <div class="list">
                     {% for s in statistic %}
-                        <img src="{% static s.item.pic %}">
-                        <div class="text">
-                            <p>{{ s.item }}</p>
-                            {% if s.return_datetime is None %}
-                                {% if s.due_datetime > now %}
-                                    <div class="status-line">Status: <div class="btn-borr">Booking</div></div>
+                        <div class="list">
+                            <img src="{% static s.item.pic %}">
+                            <div class="text">
+                                <p>{{ s.item }}</p>
+                                {% if s.return_datetime is None %}
+                                    {% if s.due_datetime > now %}
+                                        <div class="status-line">Status: <div class="btn-borr">Booking</div></div>
+                                        <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
+                                        <p class="txt-small">Due date: {{ s.due_datetime }}</p>
+                                        <p class="txt-small">Return date: -</p> 
+                                    {% else %}  
+                                        <div class="status-line">Status: <div class="btn-over">Overdue</div></div>
+                                        <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
+                                        <p class="txt-small">Due date: {{ s.due_datetime }}</p>
+                                        <p class="txt-small">Return date: -</p>
+                                    {% endif %} 
+                                {% else %}
+                                    <div class="status-line">Status: <div class="btn-return">Returned</div></div>
                                     <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
                                     <p class="txt-small">Due date: {{ s.due_datetime }}</p>
-                                    <p class="txt-small">Return date: -</p> 
-                                {% else %}  
-                                    <div class="status-line">Status: <div class="btn-over">Overdue</div></div>
-                                    <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
-                                    <p class="txt-small">Due date: {{ s.due_datetime }}</p>
-                                    <p class="txt-small">Return date: -</p>
-                                {% endif %} 
-                            {% else %}
-                                <div class="status-line">Status: <div class="btn-return">Returned</div></div>
-                                <p class="txt-small">Booking date: {{ s.booking_datetime }}</p>
-                                <p class="txt-small">Due date: {{ s.due_datetime }}</p>
-                                <p class="txt-small">Return date: {{ s.return_datetime }}</p>
-                            {% endif %}    
+                                    <p class="txt-small">Return date: {{ s.return_datetime }}</p>
+                                {% endif %}    
+                            </div>
                         </div>
                     {% empty %}
                         <p class="txt-small">No item found</p>
                     {% endfor %}
-                </div>
             </div>
         </div>
     </div>
