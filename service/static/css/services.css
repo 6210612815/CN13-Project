@@ -1,5 +1,4 @@
 .container {
-    margin: 20px;
     padding: 40px;
 }
 
@@ -26,7 +25,7 @@ h2 {
     color: white;
 }
 
-p {
+.word {
     /* margin-top: 20px; */
     font-size: 18px;
     background-color: white;

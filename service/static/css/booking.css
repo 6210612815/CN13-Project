@@ -1,6 +1,6 @@
 .container {
     margin: 20px;
-    padding: 40px;
+    padding: 30px 20px 30px 20px;
     background-color: white;
     border-radius: 10px;
 }
@@ -145,13 +145,11 @@
 }
 
 @media all and (max-width: 767px) {
-    .list-container .list {
-        flex-direction: column;
-    }
     .list-container .list .text p {
         /* text-overflow: ellipsis;
-        width: 200px; */
+        width: 150px; */
         line-break: anywhere;
+        /* width: auto; */
     }
     .vertical-menu {
         width: auto;
@@ -176,7 +174,10 @@
     .sub-contain {
         flex-direction: column;
     }
-    .list-container img {
-        align-self: center;
+    .list-container .list .text, .txt-small, .status-line {
+        font-size: 12px;
+    }
+    .btn-borr, .btn-over, .btn-return {
+        height: auto;
     }
 }

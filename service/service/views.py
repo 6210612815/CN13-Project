@@ -58,6 +58,8 @@ def homepage(request):
 def homepage_choice(request, choice):
     if request.method == 'GET':
         equipments = Equipment.objects.filter(category=choice)
+        for item in equipments:
+            item.url = reverse('detail', args=[item.pk])
         return render(request, 'homepage.html', {'equipments': equipments})
 
 def homepage_sort_datetime(request):

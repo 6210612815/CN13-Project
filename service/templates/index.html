@@ -14,14 +14,14 @@
                     }
                     $.ajax({
                         type: "POST",
-                        url: "https://2303-27-145-2-103.ngrok-free.app/lineapi/",
+                        url: "https://8209-27-145-2-103.ngrok-free.app/lineapi/",
                         data: data,
                         dataType: 'JSON',
                         success: function (data) {
                             if (data.in_db) {
-                                window.location.href = "https://2303-27-145-2-103.ngrok-free.app/homepage";
+                                window.location.href = "https://8209-27-145-2-103.ngrok-free.app/homepage";
                             }else{
-                                window.location.href = "https://2303-27-145-2-103.ngrok-free.app/register";
+                                window.location.href = "https://8209-27-145-2-103.ngrok-free.app/register";
                             }
                         }
                     });
