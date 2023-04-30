@@ -114,7 +114,7 @@ def booking_item(request):
             statistic = Statistic(owner=person, item=item, due_datetime=timezone.now()+timedelta(days=date), return_datetime=None)
             statistic.save()
 
-            ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
+            ACCESS_TOKEN = 'c2Z0ZgjoiytkNVDXPMoS0ze/GPHKNssrdcfTSPIScSpKWETaBewBx925iNoD6LM9LmvvATqYrzmtkPPgECtofhUK0yYaAVKQDDRFsgxlnKf7tyCv9My60BlMahC8lLzDNgEPRJKv1x7d8mfB04zKaAdB04t89/1O/w1cDnyilFU='
             USER_ID = userId
             date_time = statistic.due_datetime
             formatted_date_time = date_time.strftime("%d/%m/%Y")
@@ -221,7 +221,7 @@ def sent_list_to_chat(request):
                 statistic = Statistic.objects.filter(owner=person).filter(return_datetime__isnull=True)
                 print(statistic)
                 if not statistic.exists():
-                    ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
+                    ACCESS_TOKEN = 'c2Z0ZgjoiytkNVDXPMoS0ze/GPHKNssrdcfTSPIScSpKWETaBewBx925iNoD6LM9LmvvATqYrzmtkPPgECtofhUK0yYaAVKQDDRFsgxlnKf7tyCv9My60BlMahC8lLzDNgEPRJKv1x7d8mfB04zKaAdB04t89/1O/w1cDnyilFU='
                     USER_ID = userId
                     MESSAGE = {'type': 'text', 'text': f'Your Booking List is Empty.'}
                     headers = {
@@ -235,7 +235,7 @@ def sent_list_to_chat(request):
                     requests.post('https://api.line.me/v2/bot/message/push', headers=headers, json=data)
                 else:
                 
-                    ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
+                    ACCESS_TOKEN = 'c2Z0ZgjoiytkNVDXPMoS0ze/GPHKNssrdcfTSPIScSpKWETaBewBx925iNoD6LM9LmvvATqYrzmtkPPgECtofhUK0yYaAVKQDDRFsgxlnKf7tyCv9My60BlMahC8lLzDNgEPRJKv1x7d8mfB04zKaAdB04t89/1O/w1cDnyilFU='
                     USER_ID = userId
                     MESSAGE = {'type': 'text', 'text': f'This is Your Booking List.'}
                     headers = {
@@ -250,11 +250,11 @@ def sent_list_to_chat(request):
 
                     for stat in statistic:
                         
-                        ACCESS_TOKEN = 'ytPUU62hi7Ouy1682WRVnTCiuLsIUbjexiEXA+J7ii8CtYFBPA1o+LpuZXZOAje3ntB8vsopY5ayT4I+H2QyOMff2a9V7OR7VN6TBZ39z/wMy8+ccdCoswhFazAmORpCi72J1V42OwX6kpUFCEiPRQdB04t89/1O/w1cDnyilFU='
+                        ACCESS_TOKEN = 'c2Z0ZgjoiytkNVDXPMoS0ze/GPHKNssrdcfTSPIScSpKWETaBewBx925iNoD6LM9LmvvATqYrzmtkPPgECtofhUK0yYaAVKQDDRFsgxlnKf7tyCv9My60BlMahC8lLzDNgEPRJKv1x7d8mfB04zKaAdB04t89/1O/w1cDnyilFU='
                         USER_ID = userId
                         date_time = stat.due_datetime
                         formatted_date_time = date_time.strftime("%d/%m/%Y")
-                        MESSAGE = {'type': 'text', 'text': f'Name {stat.item.name}.\n Due Date {formatted_date_time}'}
+                        MESSAGE = {'type': 'text', 'text': f'Name: {stat.item.name}.\n Due Date: {formatted_date_time}'}
                         headers = {
                             'Content-Type': 'application/json',
                             'Authorization': f'Bearer {ACCESS_TOKEN}'

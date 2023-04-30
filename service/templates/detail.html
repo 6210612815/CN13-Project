@@ -3,12 +3,19 @@
 {% block title %}<title>{{ equipment.name }}</title>{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/detials.css' %}">
-    <script src="{% static '/js/styles.js' %}"></script>
-    <script type="text/javascript" src="/static/js/styles.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/detial.css' %}">
 {% endblock %}
 
 {% block body %}
+    {% if messages %}
+    <div class="alert">
+        {% for message in messages %}
+            <div>{{ message }}
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <script>
         liff.init({ liffId: "1657196715-wb3NDYPR" }, () => {
             if (!liff.isLoggedIn()) {
@@ -29,49 +36,25 @@
             }
         }, err => console.error(err.code, error.message));
     </script>
-    {% if messages %}
-    <div class="msg">
-        {% for message in messages %}
-            <div {% if message.tags %} class="alert" id="AB" {% endif %}>{{ message }}
-                
-                <span class="close-btn" id="closeAlert">
-                    <i class="fa fa-close"></i>
-                </span>
-            </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    <script>
-    var span = document.getElementById("closeAlert");
-    var alertBox = document.getElementById("AB");
-
-    span.onclick = function() {
-        AB.style.display = "none";
-    }
-    </script>
-    <script>
-        var span = document.getElementById("closeAlert");
-        var alertBox = document.getElementById("AB");
-        span.onclick = function() {
-            AB.style.display = "none";
-        }
-    </script>
-    
     <div class="container">
         <h1>Detail</h1>
         <div class="data-container">
             <img src="{% static equipment.pic %}">
             <div class="desc">
                 <p>Name: {{ equipment.name }}</p>
-                <p>Category: {{ equipment.name }}</p>
+                <p>Category: {{ equipment.category }}</p>
                 <p>Description: {{ equipment.desc }}</p>
-                <form method="post" style="float:left" action="{% url 'favorite' %}">
-                    {% csrf_token %}
-                    <input type="hidden" id="userId_fav" name="userId" value="">
-                    <input type="hidden" name="item_id" value="{{ equipment.id }}">
-                    <button class="fav-btn" onclick="toggleFav(this)"type="submit">Favorite</button>
-                </form>
+                <div class="fav">
+                    <form method="post" style="float:left" action="{% url 'favorite' %}">
+                        {% csrf_token %}
+                        <input type="hidden" id="userId_fav" name="userId" value="">
+                        <input type="hidden" name="item_id" value="{{ equipment.id }}">
+                        <button onclick="toggleFav(this)" type="submit"> 
+                            <img src="{% static '/images/heart.png' %}" width="30px", height="30px">
+                            Favorite
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
 

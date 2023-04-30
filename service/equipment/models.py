@@ -14,7 +14,7 @@ class Equipment(models.Model):
     )
 
     name = models.CharField(max_length=100)
-    desc = models.CharField(max_length=1000)
+    desc = models.TextField(max_length=1000)
     pic = models.ImageField(upload_to='images/')
     available = models.BooleanField(default=True)
     own = models.ForeignKey(Student, on_delete=models.SET_NULL, blank=True, null=True)
